@@ -15,4 +15,10 @@ public final class Constants {
     public static final class ClimbConstants {
         public static final int winchID = 23;
     }
+
+    public static final class AutoConstants {
+        public static final double intakeAxleSpeed = 0.5; // Speed to run the intake axle during auto
+        public static final double shooterSpeed = 0.5; // Speed to run the shooter during auto
+        public static final int autoShootDuration = 15; // Duration to run the shooter and intake during auto, in seconds
+    }
 }

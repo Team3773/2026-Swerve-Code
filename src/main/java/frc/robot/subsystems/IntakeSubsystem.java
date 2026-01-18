@@ -15,4 +15,13 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeAxleMotor = new TalonFX(Constants.IntakeConstants.intakeAxleID, "rio");
         
     }
+
+    // Added methods to run/stop the intake motor
+    public void runIntake(double speed) {
+        intakeAxleMotor.set(speed);
+    }
+
+    public void stopIntake() {
+        intakeAxleMotor.set(0.0);
+    }
 }
