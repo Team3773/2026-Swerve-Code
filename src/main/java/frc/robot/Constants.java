@@ -7,11 +7,15 @@ public final class Constants {
         //Can IDs
         public static final int intakePivotID = 20;
         public static final int intakeAxleID = 21;
+        //Intake speeds during Teleop
+        public static final double intakeAxleSpeed = 0.5; // Speed to run the intake axle
     }
 
     public static final class ShooterConstants {
         //Can IDs
         public static final int shooterID = 22;
+        //Shooter speeds during Teleop
+        public static final double shooterSpeed = 0.5; // Speed to run the shooter
     }
 
     public static final class ClimbConstants {

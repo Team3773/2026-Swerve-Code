@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooterSubsystem;
@@ -45,6 +45,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController coDriver = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -113,6 +114,27 @@ public class RobotContainer {
 
         // Reset the field-centric heading on left bumper press.
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        coDriver.rightTrigger().whileTrue(
+            new StartEndCommand(() -> {
+                    shooter.runShooter(Constants.ShooterConstants.shooterSpeed);
+                    intake.runIntake(Constants.IntakeConstants.intakeAxleSpeed);
+                },
+                () -> {
+                    shooter.stopShooter();
+                    intake.stopIntake();
+                },
+                shooter, intake
+            )
+        );
+
+        coDriver.leftTrigger().whileTrue(
+            new StartEndCommand(
+                () -> intake.runIntake(Constants.IntakeConstants.intakeAxleSpeed),
+                intake::stopIntake,
+                intake
+            )
+        );
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

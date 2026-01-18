@@ -8,19 +8,24 @@ import frc.robot.Constants;
 
 public class FuelShooterSubsystem extends SubsystemBase {
 
-    private SparkFlex shooterMotor;
+    private SparkFlex upperMotor;
+    private SparkFlex lowerMotor;
 
     public FuelShooterSubsystem() {
 
-        shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterID, MotorType.kBrushless);
+        upperMotor = new SparkFlex(Constants.ShooterConstants.shooterID, MotorType.kBrushless);
+        lowerMotor = new SparkFlex(Constants.ShooterConstants.shooterID, MotorType.kBrushless);
+        
     }
 
         public void runShooter(double speed) {
-        shooterMotor.set(speed);
+        upperMotor.set(speed);
+        lowerMotor.set(speed);
     }
 
         public void stopShooter() {
-        shooterMotor.set(0);
+        upperMotor.set(0);
+        lowerMotor.set(0);
     
     }
 }
