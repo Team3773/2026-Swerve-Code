@@ -8,11 +8,11 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private TalonFXS intakePivotMotor; //CTRE Minion, used for raising/lowering the intake axle
-    private TalonFX intakeAxleMotor; //Kraken X44, used for driving the intake wheels
+    private TalonFX intakeGrabMotor; //Kraken X44, used for driving the intake wheels and also powering the hopper agitator
 
     public IntakeSubsystem() {
         intakePivotMotor = new TalonFXS(Constants.IntakeConstants.intakePivotID, "rio");
-        intakeAxleMotor = new TalonFX(Constants.IntakeConstants.intakeAxleID, "rio");
+        intakeGrabMotor = new TalonFX(Constants.IntakeConstants.intakeGrabID, "rio");
         
     }
 }

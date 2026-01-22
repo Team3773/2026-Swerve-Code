@@ -4,26 +4,13 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.FuelShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterCommand extends Command {
-  /** Creates a new ShooterCommand. */
-
-  FuelShooterSubsystem fuelShooterSubsystem;
-  BooleanSupplier triggerSupplier;
-
-  public ShooterCommand(FuelShooterSubsystem fuelShooterSubsystem, BooleanSupplier trigger) {
-    /* This command will run both the shooter and the intake grab 
-    (for the agitator) at the same time when the RT is fully depressed */
-
+public class IntakeGrabCommand extends Command {
+  /** Creates a new IntakeGrabCommand. */
+  public IntakeGrabCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.fuelShooterSubsystem = fuelShooterSubsystem;
-    this.triggerSupplier = trigger;
-    addRequirements(fuelShooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
