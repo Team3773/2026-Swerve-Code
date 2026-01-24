@@ -4,26 +4,46 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ClimbSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ClimbCommand extends Command {
   /** Creates a new ClimbCommand. */
-  public ClimbCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+  BooleanSupplier winchIn, winchRelease;
+  ClimbSubsystem climbSubsystem;
 
+  public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn, BooleanSupplier winchRelease) {
+    this.climbSubsystem = climbSubsystem;
+    this.winchIn = winchIn;
+    this.winchRelease = winchRelease;
+    addRequirements(climbSubsystem);
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+     if (winchIn.getAsBoolean()) {
+      this.climbSubsystem.runWinch();
+    } else if (winchRelease.getAsBoolean()) {
+      this.climbSubsystem.releaseWinch();
+    } else {
+      this.climbSubsystem.stopWinch();
+    }
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    climbSubsystem.stopWinch();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -99,6 +99,7 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
+        
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, coDriver.rightTrigger()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);

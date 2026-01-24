@@ -17,4 +17,18 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeSecondAgitator = new TalonFX(Constants.IntakeConstants.intakeSecondAgitatorID, "rio");
         
     }
+
+    public void runIntakeGrabber(boolean leftTriggerPressed) {
+        
+        if (leftTriggerPressed) {
+            intakeGrabMotor.set(0.5);
+            intakeSecondAgitator.set(0.5);
+            System.out.println("LT pressed, running intake grabber motors!");
+        }
+        else {
+            intakeGrabMotor.set(0.0);
+            intakeSecondAgitator.set(0.0);
+            System.out.println("LT is NOT pressed, motors stopped!");
+        }
+    }
 }

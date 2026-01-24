@@ -4,13 +4,25 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.FuelShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeGrabCommand extends Command {
   /** Creates a new IntakeGrabCommand. */
-  public IntakeGrabCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  
+  IntakeSubsystem intakeSubsystem;
+  BooleanSupplier triggerSupplier;
+
+  public IntakeGrabCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier triggerSupplier) {
+    /* This command runs the intake grabber when the LT is depressed */
+
+    this.intakeSubsystem = intakeSubsystem;
+    this.triggerSupplier = triggerSupplier;
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -19,7 +31,9 @@ public class IntakeGrabCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    intakeSubsystem.runIntakeGrabber(this.triggerSupplier.getAsBoolean());
+  }
 
   // Called once the command ends or is interrupted.
   @Override

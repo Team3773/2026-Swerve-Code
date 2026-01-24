@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -13,15 +14,15 @@ import frc.robot.Constants.ShooterConstants;
 
 public class FuelShooterSubsystem extends SubsystemBase {
 
-    private SparkFlex shooterFeedMotor; //Wheel
-    private SparkFlex shooterSecondFeedMotor; //Stars. Also, THIS IS THE FOURTH MOTOR ON THE SHOOTER, STOP PUTTING MORE!
+    private SparkMax shooterFeedMotor; //Wheel
+    private SparkMax shooterSecondFeedMotor; //Stars. Also, THIS IS THE FOURTH MOTOR ON THE SHOOTER, STOP PUTTING MORE!
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
 
     public FuelShooterSubsystem() {
 
-        shooterFeedMotor = new SparkFlex(Constants.ShooterConstants.shooterFeedID, MotorType.kBrushless);
-        shooterSecondFeedMotor = new SparkFlex(Constants.ShooterConstants.shooterSecondFeedID, MotorType.kBrushless);
+        shooterFeedMotor = new SparkMax(Constants.ShooterConstants.shooterFeedID, MotorType.kBrushless);
+        shooterSecondFeedMotor = new SparkMax(Constants.ShooterConstants.shooterSecondFeedID, MotorType.kBrushless);
         shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterID, MotorType.kBrushless);
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
 
