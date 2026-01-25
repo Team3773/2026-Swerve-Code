@@ -26,19 +26,6 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterID, MotorType.kBrushless);
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
 
-        SparkFlexConfig globalConfig = new SparkFlexConfig();
-        SparkFlexConfig leaderConfig = new SparkFlexConfig();
-        SparkFlexConfig followerConfig = new SparkFlexConfig();
-
-        globalConfig
-            .smartCurrentLimit(80)
-            .idleMode(IdleMode.kCoast);
-        
-        leaderConfig.apply(globalConfig);
-        followerConfig.apply(globalConfig).follow(shooterMotor);
-        
-        shooterMotor.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        shooterFollowingMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     } 
 
     public void motorControl(boolean rightTriggerPressed) { //This probably needs to be rewritten
@@ -47,20 +34,17 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterFeedMotor.set(ShooterConstants.shooterSpeed);
             shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed); //TODO: Test direction
             shooterMotor.set(ShooterConstants.shooterSpeed);
-            System.out.println("RT pressed, running shooter motors!");
         }
         else {
             shooterFeedMotor.set(0.0);
             shooterSecondFeedMotor.set(0.0);
             shooterMotor.set(0.0);
-            System.out.println("RT is NOT pressed, motors stopped!");
         }
     }
     public void runMotor(double speed) {
         shooterFeedMotor.set(speed);
         shooterSecondFeedMotor.set(-speed);
         shooterMotor.set(speed);
-        System.out.println("Shooter motors' speed set to" + speed);
     }
     
 }

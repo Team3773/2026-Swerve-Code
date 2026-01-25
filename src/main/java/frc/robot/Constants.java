@@ -8,6 +8,11 @@ public final class Constants {
         public static final int intakePivotID = 20;
         public static final int intakeGrabID = 21;
         public static final int intakeSecondAgitatorID = 22;
+
+        public static final double intakePivotIncrement = 0.05; //Amount to increment the pivot position by
+        //Set points
+        public static final double intakePivotDownPosition = 0.0; //Position for intake down
+        public static final double intakePivotStartPosition = 1.0; //Position for intake
     }
 
     public static final class ShooterConstants {

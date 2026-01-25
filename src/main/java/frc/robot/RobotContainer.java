@@ -19,10 +19,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -44,6 +46,7 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final FuelShooterSubsystem FuelShooterSubsystem = new FuelShooterSubsystem();
+    public final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -99,7 +102,7 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        
+        IntakeSubsystem.setDefaultCommand(new IntakePivotCommand(() -> coDriver.povDown().getAsBoolean(),() -> coDriver .povUp().getAsBoolean(), IntakeSubsystem));
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, coDriver.rightTrigger()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);
