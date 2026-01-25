@@ -79,8 +79,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void runIntakeGrabber(boolean leftTriggerPressed) {
         
         if (leftTriggerPressed) {
-            intakeGrabMotor.set(0.5);
-            intakeSecondAgitator.set(0.5);
+            intakeGrabMotor.set(Constants.IntakeConstants.intakeGrabSpeed);
+            intakeSecondAgitator.set(Constants.IntakeConstants.intakeSecondAgitatorSpeed);
         }
         else {
             intakeGrabMotor.set(0.0);
@@ -111,7 +111,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void goToPosition(double value) {
         currentSetpoint = value;
-        sparkClosedLoopController.setReference(value, ControlType.kPosition, ClosedLoopSlot.kSlot1);
+        sparkClosedLoopController.setSetpoint(value, ControlType.kPosition, ClosedLoopSlot.kSlot1);
     }
 
     public double getCurrentPosition() {
