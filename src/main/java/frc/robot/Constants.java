@@ -17,8 +17,8 @@ public final class Constants {
         public static final int shooterShooterID = 25;
         public static final int shooterShooterFollowingID = 26;
         //Speeds
-        public static final double shooterSpeed = 0.5; //TODO: Change these to 1.0 when ready
-        public static final double shooterReverseSpeed = -0.5;
+        public static final double shooterSpeed = 1.0; //TODO: Change these to 1.0 when ready
+        public static final double shooterReverseSpeed = -1.0;
     }
 
     public static final class ClimbConstants {
