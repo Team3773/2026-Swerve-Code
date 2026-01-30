@@ -12,13 +12,23 @@ import frc.robot.subsystems.ClimbSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ClimbCommand extends Command {
   /** Creates a new ClimbCommand. */
-  BooleanSupplier winchIn, winchRelease;
+  BooleanSupplier winchIn, winchRelease, climbStartPos, climbArmReady, climbPull;
   ClimbSubsystem climbSubsystem;
+  
+  double startPosition = 0.0; //position in rotations
+  double readyPosition = -0.35;
+  double pullPosition = 0.25;
 
-  public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn, BooleanSupplier winchRelease) {
+  public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn, 
+  BooleanSupplier winchRelease, BooleanSupplier climbStartPos, BooleanSupplier climbArmReady, 
+  BooleanSupplier climbPull) {
     this.climbSubsystem = climbSubsystem;
     this.winchIn = winchIn;
     this.winchRelease = winchRelease;
+
+    this.climbStartPos = climbStartPos;
+    this.climbArmReady = climbArmReady;
+    this.climbPull = climbPull;
     addRequirements(climbSubsystem);
   }
   // Called when the command is initially scheduled.
@@ -28,6 +38,16 @@ public class ClimbCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+     if (climbPull.getAsBoolean()) {
+      // Go to Climb Pull position
+      this.climbSubsystem.armGoToPosition(pullPosition);
+    } else if (climbArmReady.getAsBoolean()) {
+      // Go to Climb Hook Position
+      this.climbSubsystem.armGoToPosition(readyPosition);
+    } else if (climbStartPos.getAsBoolean()) { //This one will be removed later
+      //Go to Zero Position
+      this.climbSubsystem.armGoToPosition(startPosition);
+    }
 
      if (winchIn.getAsBoolean()) {
       this.climbSubsystem.runWinch();
