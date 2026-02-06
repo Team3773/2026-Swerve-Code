@@ -23,12 +23,12 @@ public class ClimbCommand extends Command {
   BooleanSupplier winchRelease, BooleanSupplier climbStartPos, BooleanSupplier climbArmReady, 
   BooleanSupplier climbPull) {
     this.climbSubsystem = climbSubsystem;
-    this.winchIn = winchIn;
-    this.winchRelease = winchRelease;
+    this.winchIn = winchIn; //Start (Driver)
+    this.winchRelease = winchRelease; //Select/Back (Driver)
 
-    this.climbStartPos = climbStartPos;
-    this.climbArmReady = climbArmReady;
-    this.climbPull = climbPull;
+    this.climbStartPos = climbStartPos; //Y (Driver)
+    this.climbArmReady = climbArmReady; //X (Driver)
+    this.climbPull = climbPull; //A (Driver)
     addRequirements(climbSubsystem);
   }
   // Called when the command is initially scheduled.

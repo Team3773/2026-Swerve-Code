@@ -47,7 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeGoToPosition(double position) {
         // Trapezoid profile with max velocity 80 rps, max accel 160 rps/s
         final TrapezoidProfile m_profile = new TrapezoidProfile(
-            new TrapezoidProfile.Constraints(80, 160));
+            new TrapezoidProfile.Constraints(20, 80));
         // Final target of 200 rot, 0 rps
         TrapezoidProfile.State m_goal = new TrapezoidProfile.State(position, 0);
         TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
@@ -64,7 +64,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakePivotMotor.setControl(m_request);
     }
 
-    public void resetPosition() {
+    public void resetIntakePosition() {
         return; //figure out how to reset the pid controller position
     }
 }

@@ -13,15 +13,20 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakePivotCommand extends Command {
   /** Creates a new IntakePivotCommand. */
   IntakeSubsystem intakeSubsystem;
+  BooleanSupplier intakeIn, intakeOut;
+  double startPos = 0.0;
+  double deployedPos = 0.1;
 
-  public IntakePivotCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier triggerSupplier) {
+  public IntakePivotCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier intakeIn, BooleanSupplier intakeOut) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
+    this.intakeIn = intakeIn;
+    this.intakeOut = intakeOut;
     addRequirements(intakeSubsystem);
 
     /* The plan for the intake is to immediately extend when the match starts and also start a timer
       at the same time, so when there's about 20 seconds left in the match, the intake automatically
-      retracts and the climb arm extends. This will likely involve using a GroupCommand.
+      retracts and the climb arm extends. This will likely involve using a ParallelCommand.
     */
   }
 
@@ -31,7 +36,19 @@ public class IntakePivotCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (intakeOut.getAsBoolean()) {
+      //Put the intake out
+      this.intakeSubsystem.intakeGoToPosition(deployedPos);
+    }
+    else if (intakeIn.getAsBoolean()) {
+      //Put the intake in
+      this.intakeSubsystem.intakeGoToPosition(startPos);
+    }
+    else {
+      return;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

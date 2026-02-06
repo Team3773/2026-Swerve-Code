@@ -3,9 +3,18 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
@@ -67,6 +76,12 @@ public class ClimbSubsystem extends SubsystemBase {
         winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         //Configure the arm motor
+        
+        /*armMotor.configSelectedFeedbackSensor(      //This doesn't work because it isn't defined for TalonFXS
+                  FeedbackDevice.Analog,				// Local Feedback Source
+									Constants.ClimbConstants.winchID,					// PID Slot for Source [0, 1]
+									0.100);					// Configuration Timeout
+        */
         // in init function, set slot 0 gains
         var slot0Configs = new Slot0Configs();
         slot0Configs.kP = 2.4; // An error of 1 rotation results in 2.4 V output
