@@ -8,6 +8,8 @@ public final class Constants {
         public static final int intakePivotID = 20;
         public static final int intakeGrabID = 21;
         public static final int intakeSecondAgitatorID = 22;
+        public static final int intakePivotEncoderID = 30;
+        public static final double intakePivotEncoderMagneticOffset = 0;
     }
 
     public static final class ShooterConstants {
