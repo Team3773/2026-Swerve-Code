@@ -20,8 +20,8 @@ public class IntakePivotCommand extends Command {
   public IntakePivotCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier intakeIn, BooleanSupplier intakeOut) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
-    this.intakeIn = intakeIn;
-    this.intakeOut = intakeOut;
+    this.intakeIn = intakeIn; //DPad Up
+    this.intakeOut = intakeOut; //DPad Down
     addRequirements(intakeSubsystem);
 
     /* The plan for the intake is to immediately extend when the match starts and also start a timer
@@ -44,9 +44,6 @@ public class IntakePivotCommand extends Command {
     else if (intakeIn.getAsBoolean()) {
       //Put the intake in
       this.intakeSubsystem.intakeGoToPosition(startPos);
-    }
-    else {
-      return;
     }
   }
 
