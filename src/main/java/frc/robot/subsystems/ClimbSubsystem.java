@@ -7,39 +7,51 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
 
     private SparkMax winchMotor;
-    private TalonFXS armMotor;
+    private SparkMax armMotor;
+    private CANcoder armCancoder; //CANcoder
 
     private SparkClosedLoopController closedLoopController;
     private RelativeEncoder encoder;
     
     private final double winchMotorSpeed = Constants.ClimbConstants.winchMotorSpeed;
+    private double requestedPos;
 
     public ClimbSubsystem() {
         //Configure the winch motor
         winchMotor = new SparkMax(Constants.ClimbConstants.winchID, MotorType.kBrushless);
+        armMotor = new SparkMax(Constants.ClimbConstants.armID, MotorType.kBrushless);
+        armCancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
 
         closedLoopController = winchMotor.getClosedLoopController();
     
@@ -47,6 +59,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
         SparkMaxConfig winchConfig = new SparkMaxConfig();
 
+        /* 
         winchConfig.encoder
         .positionConversionFactor(1.0/324.0)
         .velocityConversionFactor(1.0/324.0);
@@ -66,7 +79,7 @@ public class ClimbSubsystem extends SubsystemBase {
             .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
             .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
-
+        */
         winchConfig
                 .smartCurrentLimit(50)
                 .idleMode(IdleMode.kBrake);
@@ -75,20 +88,54 @@ public class ClimbSubsystem extends SubsystemBase {
         
         winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
+        //Configure the encoder
+        CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
+        cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
+        cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        cc_cfg.MagnetSensor.MagnetOffset = Constants.IntakeConstants.intakePivotEncoderMagneticOffset;
+        armCancoder.getConfigurator().apply(cc_cfg);
+
         //Configure the arm motor
+        closedLoopController = armMotor.getClosedLoopController();
+    
+        encoder = armMotor.getEncoder();
+
+        SparkMaxConfig armConfig = new SparkMaxConfig();
+
+        armConfig.encoder
+        .positionConversionFactor(1.0/324.0)
+        .velocityConversionFactor(1.0/324.0);
+
+        armConfig.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            // Set PID values for position control. We don't need to pass a closed loop
+            // slot, as it will default to slot 0.
+            .p(1)
+            .i(0)
+            .d(0)
+            .outputRange(-1, 1)
+            // Set PID values for velocity control in slot 1
+            .p(1, ClosedLoopSlot.kSlot1)
+            .i(0, ClosedLoopSlot.kSlot1)
+            .d(0, ClosedLoopSlot.kSlot1)
+            .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
+            .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+
+
+        armConfig
+                .smartCurrentLimit(50)
+                .idleMode(IdleMode.kBrake);
         
+        armConfig.apply(armConfig);
+        
+        armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
         /*armMotor.configSelectedFeedbackSensor(      //This doesn't work because it isn't defined for TalonFXS
                   FeedbackDevice.Analog,				// Local Feedback Source
 									Constants.ClimbConstants.winchID,					// PID Slot for Source [0, 1]
 									0.100);					// Configuration Timeout
         */
         // in init function, set slot 0 gains
-        var slot0Configs = new Slot0Configs();
-        slot0Configs.kP = 2.4; // An error of 1 rotation results in 2.4 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
-
-        armMotor.getConfigurator().apply(slot0Configs);
     }
 
 public void runWinch(){
@@ -101,23 +148,19 @@ public void releaseWinch(){
     winchMotor.set(-winchMotorSpeed);
   }
   public void armGoToPosition(double position) {
-    // Trapezoid profile with max velocity 80 rps, max accel 160 rps/s
-        final TrapezoidProfile m_profile = new TrapezoidProfile(
-            new TrapezoidProfile.Constraints(80, 160));
-        // Final target of var rot, 0 rps
-        TrapezoidProfile.State m_goal = new TrapezoidProfile.State(position, 0);
-        TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
+    //just gonna yoink the pos for SmartDashboard
+    requestedPos = position;
+    //Set the setpoint
+    closedLoopController.setSetpoint(position, ControlType.kPosition, ClosedLoopSlot.kSlot1);
+  }
 
-        // create a position closed-loop request, voltage output, slot 0 configs
-        final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
-
-        // calculate the next profile setpoint
-        m_setpoint = m_profile.calculate(0.020, m_setpoint, m_goal);
-
-        // send the request to the device
-        m_request.Position = m_setpoint.position;
-        m_request.Velocity = m_setpoint.velocity;
-        armMotor.setControl(m_request);
+  public void periodic() {
+        SmartDashboard.putNumber("Climb Requested Pos", 
+            requestedPos);
+        SmartDashboard.putNumber("Climb Arm CANcoder Pos", 
+            armCancoder.getAbsolutePosition().getValueAsDouble());
+        SmartDashboard.putNumber("Climb Arm CANcoder Vel", 
+            armCancoder.getVelocity().getValueAsDouble());
   }
 }
 

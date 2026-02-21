@@ -18,24 +18,26 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private TalonFX intakePivotMotor; //Kraken X44, used for raising/lowering the intake axle
-    private CANcoder cancoder; //CANcoder
+    private CANcoder intakeCancoder; //CANcoder
     private TalonFXS intakeGrabMotor; //CTRE Minion, used for driving the intake wheels and also powering the Hopper Agitator 
     private TalonFX intakeSecondAgitator; //Another X44 used exclusively for the agitator near the Shooter
+
+    private double requestedPos;
 
     public IntakeSubsystem() {
         intakePivotMotor = new TalonFX(Constants.IntakeConstants.intakePivotID, "rio");
         intakeGrabMotor = new TalonFXS(Constants.IntakeConstants.intakeGrabID, "rio");
         intakeSecondAgitator = new TalonFX(Constants.IntakeConstants.intakeSecondAgitatorID, "rio");
-        cancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
+        intakeCancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
 
         CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
         cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
         cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         cc_cfg.MagnetSensor.MagnetOffset = Constants.IntakeConstants.intakePivotEncoderMagneticOffset;
-        cancoder.getConfigurator().apply(cc_cfg);
+        intakeCancoder.getConfigurator().apply(cc_cfg);
 
         TalonFXConfiguration fx_cfg = new TalonFXConfiguration();
-        fx_cfg.Feedback.FeedbackRemoteSensorID = cancoder.getDeviceID();
+        fx_cfg.Feedback.FeedbackRemoteSensorID = intakeCancoder.getDeviceID();
         fx_cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.SyncCANcoder;
         fx_cfg.Feedback.SensorToMechanismRatio = 1.0;//Change As Needed
         fx_cfg.Feedback.RotorToSensorRatio = 12.8;
@@ -70,6 +72,9 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void intakeGoToPosition(double position) {
+        //just gonna yoink the pos for SmartDashboard
+        requestedPos = position;
+
         // Trapezoid profile with max velocity 80 rps, max accel 160 rps/s
         final TrapezoidProfile m_profile = new TrapezoidProfile(
             new TrapezoidProfile.Constraints(80, 160));
@@ -94,9 +99,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Current CANcoder Pos", 
-            cancoder.getAbsolutePosition().getValueAsDouble());
-        SmartDashboard.putNumber("Current CANcoder Vel", 
-            cancoder.getVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Intake Requested Pos", 
+            requestedPos);
+        SmartDashboard.putNumber("Intake CANcoder Pos", 
+            intakeCancoder.getAbsolutePosition().getValueAsDouble());
+        SmartDashboard.putNumber("Intake CANcoder Vel", 
+            intakeCancoder.getVelocity().getValueAsDouble());
     }
 }
