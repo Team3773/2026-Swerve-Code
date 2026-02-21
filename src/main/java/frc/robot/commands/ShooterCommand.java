@@ -17,7 +17,7 @@ public class ShooterCommand extends Command {
   BooleanSupplier triggerSupplier;
 
   public ShooterCommand(FuelShooterSubsystem fuelShooterSubsystem, BooleanSupplier trigger) {
-    /* This command will run both the shooter and the intake grab 
+    /* This command will run the shooter and the intake grab 
     (for the agitator) at the same time when the RT is fully depressed */
 
     // Use addRequirements() here to declare subsystem dependencies.
