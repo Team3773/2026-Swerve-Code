@@ -10,19 +10,27 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeGrabCommand;
 import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ShooterIntakeCommandGroup;
+import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
+import frc.robot.commands.autonomous.IntakeRunAutonCommand;
+import frc.robot.commands.autonomous.ShooterIntakeAutonParallelCmd;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -48,12 +56,21 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final FuelShooterSubsystem FuelShooterSubsystem = new FuelShooterSubsystem();
     public final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+    public final ClimbSubsystem ClimbSubsystem = new ClimbSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+
+        NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
+            ()->new ShooterIntakeAutonParallelCmd(FuelShooterSubsystem, IntakeSubsystem)));
+        NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
+            ()->new IntakeReadyAutonCommand(IntakeSubsystem)));
+        NamedCommands.registerCommand("StartIntake", Commands.runOnce(
+            ()->new IntakeRunAutonCommand(IntakeSubsystem)));
+
+        autoChooser = AutoBuilder.buildAutoChooser("simpleauto");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
@@ -95,22 +112,25 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        driver.back().and(driver.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        driver.back().and(driver.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        driver.start().and(driver.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        driver.start().and(driver.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        //driver.back().and(driver.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        //driver.back().and(driver.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        //driver.start().and(driver.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        //driver.start().and(driver.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
         driver.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         IntakeSubsystem.setDefaultCommand(new IntakeGrabCommand(IntakeSubsystem,
             operator.leftTrigger()::getAsBoolean));
-
         IntakeSubsystem.setDefaultCommand(new IntakePivotCommand(IntakeSubsystem, 
             operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean));
             
-        FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
+        FuelShooterSubsystem.setDefaultCommand(new ShooterIntakeCommandGroup(FuelShooterSubsystem, IntakeSubsystem, 
             operator.rightTrigger()::getAsBoolean));
+
+        ClimbSubsystem.setDefaultCommand(new ClimbCommand(ClimbSubsystem, 
+            driver.start()::getAsBoolean, driver.back()::getAsBoolean, driver.y()::getAsBoolean, driver.x()::getAsBoolean,
+            driver.a()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

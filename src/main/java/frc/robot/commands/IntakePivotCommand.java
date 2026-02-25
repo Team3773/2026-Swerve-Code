@@ -14,8 +14,8 @@ public class IntakePivotCommand extends Command {
   /** Creates a new IntakePivotCommand. */
   IntakeSubsystem intakeSubsystem;
   BooleanSupplier intakeIn, intakeOut;
-  double startPos = 0.0;
-  double deployedPos = -0.285;
+  public static double startPos = 0.0;
+  public static double deployedPos = -0.285;
 
   public IntakePivotCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier intakeIn, BooleanSupplier intakeOut) {
     // Use addRequirements() here to declare subsystem dependencies.

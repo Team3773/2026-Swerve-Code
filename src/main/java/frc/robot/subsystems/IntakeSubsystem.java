@@ -60,8 +60,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void runIntakeGrabber(boolean leftTriggerPressed) {
         
         if (leftTriggerPressed) {
-            intakeGrabMotor.set(0.5);
-            intakeSecondAgitator.set(0.5);
+            intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
+            intakeSecondAgitator.set(Constants.IntakeConstants.intakeSpeed);
             System.out.println("LT pressed, running intake grabber motors!");
         }
         else {
@@ -69,6 +69,11 @@ public class IntakeSubsystem extends SubsystemBase {
             intakeSecondAgitator.set(0.0);
             System.out.println("LT is NOT pressed, motors stopped!");
         }
+    }
+
+    public void runIntakeGrabberVariable(double speed) {
+        intakeGrabMotor.set(speed);
+        intakeSecondAgitator.set(speed);
     }
 
     public void intakeGoToPosition(double position) {
