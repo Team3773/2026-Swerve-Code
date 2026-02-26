@@ -51,7 +51,7 @@ public class ClimbSubsystem extends SubsystemBase {
         //Configure the winch motor
         winchMotor = new SparkMax(Constants.ClimbConstants.winchID, MotorType.kBrushless);
         armMotor = new SparkMax(Constants.ClimbConstants.armID, MotorType.kBrushless);
-        armCancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
+        armCancoder = new CANcoder(Constants.ClimbConstants.armEncoderID);
 
         closedLoopController = winchMotor.getClosedLoopController();
     

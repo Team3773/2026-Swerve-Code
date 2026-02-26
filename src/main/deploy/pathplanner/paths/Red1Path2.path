@@ -12,7 +12,7 @@
         "y": 2.3853209700427964
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Red1Path1to2"
     },
     {
       "anchor": {
@@ -77,7 +77,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 7.13847242343201
+    "rotation": 7.1384724234320105
   },
   "reversed": false,
   "folder": null,
