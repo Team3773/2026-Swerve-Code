@@ -10,6 +10,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.controls.PositionVoltage;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -32,13 +34,23 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeSecondAgitator = new TalonFX(Constants.IntakeConstants.intakeSecondAgitatorID, "rio");
         intakeCancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
 
+        // TalonFXS Configuration
+        TalonFXSConfiguration talonFXSConfiguration = new TalonFXSConfiguration();
+        intakeGrabMotor.getConfigurator().apply(talonFXSConfiguration);
+        talonFXSConfiguration.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        talonFXSConfiguration.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        intakeGrabMotor.getConfigurator().apply(talonFXSConfiguration);
+
+        // CANcoder Configuration
         CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
         cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
         cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         cc_cfg.MagnetSensor.MagnetOffset = Constants.IntakeConstants.intakePivotEncoderMagneticOffset;
         intakeCancoder.getConfigurator().apply(cc_cfg);
-
+        
+        // TalonFX Configuration
         TalonFXConfiguration fx_cfg = new TalonFXConfiguration();
+        fx_cfg.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         fx_cfg.Feedback.FeedbackRemoteSensorID = intakeCancoder.getDeviceID();
         fx_cfg.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.SyncCANcoder;
         fx_cfg.Feedback.SensorToMechanismRatio = 1.0;//Change As Needed
