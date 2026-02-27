@@ -4,7 +4,6 @@ import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import com.ctre.phoenix6.sim.TalonFXSimState.MotorType;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -13,6 +12,9 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.controls.PositionVoltage;
+
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,16 +26,16 @@ public class IntakeSubsystem extends SubsystemBase {
     private TalonFX intakePivotMotor; //Kraken X44, used for raising/lowering the intake axle
     private CANcoder intakeCancoder; //CANcoder
     private TalonFXS intakeGrabMotor; //CTRE Minion, used for driving the intake wheels and also powering the Hopper Agitator 
-    private TalonFX intakeSecondAgitator; //Another X44 used exclusively for the agitator near the Shooter
+    private SparkMax intakeSecondAgitator; //Another X44 used exclusively for the agitator near the Shooter
 
     private double requestedPos;
 
     public IntakeSubsystem() {
         intakePivotMotor = new TalonFX(Constants.IntakeConstants.intakePivotID, "rio");
         intakeGrabMotor = new TalonFXS(Constants.IntakeConstants.intakeGrabID, "rio");
-        intakeSecondAgitator = new TalonFX(Constants.IntakeConstants.intakeSecondAgitatorID, "rio");
+        intakeSecondAgitator = new SparkMax(Constants.IntakeConstants.intakeSecondAgitatorID, MotorType.kBrushless);
         intakeCancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
-
+ 
         // TalonFXS Configuration
         TalonFXSConfiguration talonFXSConfiguration = new TalonFXSConfiguration();
         intakeGrabMotor.getConfigurator().apply(talonFXSConfiguration);
@@ -47,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
         cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         cc_cfg.MagnetSensor.MagnetOffset = Constants.IntakeConstants.intakePivotEncoderMagneticOffset;
         intakeCancoder.getConfigurator().apply(cc_cfg);
-        
+
         // TalonFX Configuration
         TalonFXConfiguration fx_cfg = new TalonFXConfiguration();
         fx_cfg.MotorOutput.NeutralMode = NeutralModeValue.Brake;
