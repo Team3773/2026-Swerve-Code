@@ -7,7 +7,6 @@ public final class Constants {
         //CAN IDs
         public static final int intakePivotID = 23;
         public static final int intakeGrabID = 20;
-        public static final int intakeSecondAgitatorID = 22;
         public static final int intakePivotEncoderID = 21;
         public static final double intakePivotEncoderMagneticOffset = 0;
         //Speeds
@@ -20,9 +19,11 @@ public final class Constants {
         public static final int shooterSecondFeedID = 15;
         public static final int shooterShooterID = 16;
         public static final int shooterShooterFollowingID = 17;
+        public static final int shooterAgitatorID = 22;
         //Speeds
         public static final double shooterSpeed = -1.0;
         public static final double shooterReverseSpeed = 1.0;
+        public static final double agitatorSpeed = -0.85;
     }
 
     public static final class ClimbConstants {

@@ -10,6 +10,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class FuelShooterSubsystem extends SubsystemBase {
@@ -18,6 +19,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private SparkMax shooterSecondFeedMotor; //Stars. Also, THIS IS THE FOURTH MOTOR ON THE SHOOTER, STOP PUTTING MORE!
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
+    private SparkMax intakeSecondAgitator;
 
     public FuelShooterSubsystem() {
 
@@ -25,6 +27,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterSecondFeedMotor = new SparkMax(Constants.ShooterConstants.shooterSecondFeedID, MotorType.kBrushless);
         shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterID, MotorType.kBrushless);
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
+        intakeSecondAgitator = new SparkMax(Constants.ShooterConstants.shooterAgitatorID, MotorType.kBrushless);
 
         /*SparkFlexConfig globalConfig = new SparkFlexConfig();
         SparkFlexConfig leaderConfig = new SparkFlexConfig();
@@ -48,6 +51,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed); //TODO: Test direction
             shooterMotor.set(ShooterConstants.shooterReverseSpeed);
             shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
+            intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
             System.out.println("RT pressed, running shooter motors!");
         }
         else {
@@ -55,6 +59,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterSecondFeedMotor.set(0.0);
             shooterMotor.set(0.0);
             shooterFollowingMotor.set(0.0);
+            intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
             System.out.println("RT is NOT pressed, motors stopped!");
         }
     }

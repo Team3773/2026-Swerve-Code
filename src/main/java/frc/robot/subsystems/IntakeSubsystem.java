@@ -26,14 +26,13 @@ public class IntakeSubsystem extends SubsystemBase {
     private TalonFX intakePivotMotor; //Kraken X44, used for raising/lowering the intake axle
     private CANcoder intakeCancoder; //CANcoder
     private TalonFXS intakeGrabMotor; //CTRE Minion, used for driving the intake wheels and also powering the Hopper Agitator 
-    private SparkMax intakeSecondAgitator; //Another X44 used exclusively for the agitator near the Shooter
+    //private SparkMax intakeSecondAgitator; //Another X44 used exclusively for the agitator near the Shooter
 
     private double requestedPos;
 
     public IntakeSubsystem() {
         intakePivotMotor = new TalonFX(Constants.IntakeConstants.intakePivotID, "rio");
         intakeGrabMotor = new TalonFXS(Constants.IntakeConstants.intakeGrabID, "rio");
-        intakeSecondAgitator = new SparkMax(Constants.IntakeConstants.intakeSecondAgitatorID, MotorType.kBrushless);
         intakeCancoder = new CANcoder(Constants.IntakeConstants.intakePivotEncoderID);
  
         // TalonFXS Configuration
@@ -77,19 +76,17 @@ public class IntakeSubsystem extends SubsystemBase {
         
         if (leftTriggerPressed) {
             intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
-            intakeSecondAgitator.set(Constants.IntakeConstants.intakeSpeed);
             System.out.println("LT pressed, running intake grabber motors!");
         }
         else {
             intakeGrabMotor.set(0.0);
-            intakeSecondAgitator.set(0.0);
             System.out.println("LT is NOT pressed, motors stopped!");
         }
     }
 
     public void runIntakeGrabberVariable(double speed) {
         intakeGrabMotor.set(speed);
-        intakeSecondAgitator.set(speed);
+        //intakeSecondAgitator.set(speed);
     }
 
     public void intakeGoToPosition(double position) {
