@@ -92,7 +92,7 @@ public class ClimbSubsystem extends SubsystemBase {
         CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
         cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
         cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        cc_cfg.MagnetSensor.MagnetOffset = Constants.IntakeConstants.intakePivotEncoderMagneticOffset;
+        cc_cfg.MagnetSensor.MagnetOffset = Constants.ClimbConstants.armEncoderMagneticOffset;
         armCancoder.getConfigurator().apply(cc_cfg);
 
         //Configure the arm motor

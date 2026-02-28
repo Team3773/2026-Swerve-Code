@@ -16,9 +16,6 @@ public class ShooterCommand extends Command {
   FuelShooterSubsystem fuelShooterSubsystem;
   BooleanSupplier triggerSupplier;
 
-  private double triggerStartTime = 0;
-  private boolean triggerWasPressed = false;
-
   public ShooterCommand(FuelShooterSubsystem fuelShooterSubsystem, BooleanSupplier trigger) {
     /* This command will run the shooter and the intake grab 
     (for the agitator) at the same time when the RT is fully depressed */
@@ -37,7 +34,8 @@ public class ShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    fuelShooterSubsystem.motorControl(this.triggerSupplier.getAsBoolean(), triggerWasPressed, triggerStartTime);
+    // pass only the current trigger state; subsystem tracks timing
+    fuelShooterSubsystem.motorControl(this.triggerSupplier.getAsBoolean());
   }
 
   // Called once the command ends or is interrupted.

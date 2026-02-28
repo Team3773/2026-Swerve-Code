@@ -22,6 +22,10 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private SparkFlex shooterFollowingMotor;
     private SparkMax intakeSecondAgitator;
 
+    // keep timing state in the subsystem
+    private boolean triggerWasPressed = false;
+    private double triggerStartTime = 0.0;
+
     public FuelShooterSubsystem() {
 
         shooterFeedMotor = new SparkMax(Constants.ShooterConstants.shooterFeedID, MotorType.kBrushless);
@@ -45,31 +49,44 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterFollowingMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);*/
     } 
 
-    public void motorControl(boolean rightTriggerPressed, boolean triggerWasPressed, double triggerStartTime) { //This probably needs to be rewritten
-        
-        if (rightTriggerPressed && !triggerWasPressed) {
-            System.out.println("RT pressed, running shooter motors!");
+    // now the subsystem tracks how long the trigger has been held
+    public void motorControl(boolean rightTriggerPressed) {
+        if (rightTriggerPressed) {
+            // started pressing this cycle
+            if (!triggerWasPressed) {
+                triggerStartTime = Timer.getFPGATimestamp();
+                triggerWasPressed = true;
+                System.out.println("RT pressed, starting shooter motors");
+            }
+
+            // keep shooter motors running while trigger held
             shooterFeedMotor.set(ShooterConstants.shooterSpeed);
             shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed); //TODO: Test direction
             shooterMotor.set(ShooterConstants.shooterReverseSpeed);
             shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
-            
-            triggerStartTime = Timer.getFPGATimestamp();
-            triggerWasPressed = rightTriggerPressed;
-            
-            if(rightTriggerPressed && Timer.getFPGATimestamp() - triggerStartTime >= 2.0) {
+
+            // after ~2 seconds, start the agitator
+            if (Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
                 intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
+            } else {
+                intakeSecondAgitator.set(0.0);
             }
-        }
-        else {
+        } else {
+            // trigger released: reset state and stop everything
+            if (triggerWasPressed) {
+                System.out.println("RT released, stopping shooter and agitator");
+            }
+            triggerWasPressed = false;
+            triggerStartTime = 0.0;
+
             shooterFeedMotor.set(0.0);
             shooterSecondFeedMotor.set(0.0);
             shooterMotor.set(0.0);
             shooterFollowingMotor.set(0.0);
             intakeSecondAgitator.set(0.0);
-            System.out.println("RT is NOT pressed, motors stopped!");
         }
     }
+
     public void runMotor(double speed) {
         shooterFeedMotor.set(speed);
         shooterSecondFeedMotor.set(-speed);

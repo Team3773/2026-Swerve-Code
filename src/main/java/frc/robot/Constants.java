@@ -23,7 +23,7 @@ public final class Constants {
         //Speeds
         public static final double shooterSpeed = -1.0;
         public static final double shooterReverseSpeed = 1.0;
-        public static final double agitatorSpeed = -0.85;
+        public static final double agitatorSpeed = -0.25;
     }
 
     public static final class ClimbConstants {
@@ -31,6 +31,7 @@ public final class Constants {
         public static final int winchID = 24;
         public static final int armID = 19;
         public static final int armEncoderID = 18;
+        public static final double armEncoderMagneticOffset = 0;
         //Speeds
         public static final double winchMotorSpeed = 0.5;
     }
