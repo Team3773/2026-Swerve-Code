@@ -59,7 +59,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterSecondFeedMotor.set(0.0);
             shooterMotor.set(0.0);
             shooterFollowingMotor.set(0.0);
-            intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
+            intakeSecondAgitator.set(0.0);
             System.out.println("RT is NOT pressed, motors stopped!");
         }
     }
@@ -68,7 +68,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterSecondFeedMotor.set(-speed);
         shooterMotor.set(-speed);
         shooterFollowingMotor.set(speed);
-        System.out.println("Shooter motors' speed set to" + speed);
+        System.out.println("Shooter motors' speed set to " + speed);
     }
     
 }
