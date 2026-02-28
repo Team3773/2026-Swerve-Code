@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
@@ -44,22 +45,28 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterFollowingMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);*/
     } 
 
-    public void motorControl(boolean rightTriggerPressed) { //This probably needs to be rewritten
+    public void motorControl(boolean rightTriggerPressed, boolean triggerWasPressed, double triggerStartTime) { //This probably needs to be rewritten
         
-        if (rightTriggerPressed) {
+        if (rightTriggerPressed && !triggerWasPressed) {
+            System.out.println("RT pressed, running shooter motors!");
             shooterFeedMotor.set(ShooterConstants.shooterSpeed);
             shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed); //TODO: Test direction
             shooterMotor.set(ShooterConstants.shooterReverseSpeed);
             shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
-            intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
-            System.out.println("RT pressed, running shooter motors!");
+            
+            triggerStartTime = Timer.getFPGATimestamp();
+            triggerWasPressed = rightTriggerPressed;
+            
+            if(rightTriggerPressed && Timer.getFPGATimestamp() - triggerStartTime >= 2.0) {
+                intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
+            }
         }
         else {
             shooterFeedMotor.set(0.0);
             shooterSecondFeedMotor.set(0.0);
             shooterMotor.set(0.0);
             shooterFollowingMotor.set(0.0);
-            intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
+            intakeSecondAgitator.set(0.0);
             System.out.println("RT is NOT pressed, motors stopped!");
         }
     }
