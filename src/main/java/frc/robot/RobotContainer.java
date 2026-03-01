@@ -26,10 +26,9 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeGrabCommand;
 import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.ShooterIntakeCommandGroup;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
-import frc.robot.commands.autonomous.ShooterIntakeAutonParallelCmd;
+import frc.robot.commands.autonomous.ShooterAutonCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -65,7 +64,7 @@ public class RobotContainer {
     public RobotContainer() {
 
         NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
-            ()->new ShooterIntakeAutonParallelCmd(FuelShooterSubsystem, IntakeSubsystem)));
+            ()->new ShooterAutonCommand(FuelShooterSubsystem)));
         NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
             ()->new IntakeReadyAutonCommand(IntakeSubsystem)));
         NamedCommands.registerCommand("StartIntake", Commands.runOnce(
@@ -121,16 +120,8 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         driver.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        //IntakeSubsystem.setDefaultCommand(new IntakeGrabCommand(IntakeSubsystem,
-           // operator.leftTrigger()::getAsBoolean));
-        //IntakeSubsystem.setDefaultCommand(new IntakePivotCommand(IntakeSubsystem, 
-          // operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean));
-
         IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem,
             operator.leftTrigger()::getAsBoolean, operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean));
-            
-        //FuelShooterSubsystem.setDefaultCommand(new ShooterIntakeCommandGroup(FuelShooterSubsystem, IntakeSubsystem, 
-           // operator.rightTrigger()::getAsBoolean));
 
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean));
