@@ -29,6 +29,7 @@ import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.ShooterIntakeCommandGroup;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
+import frc.robot.commands.autonomous.ShooterAutonCommand;
 import frc.robot.commands.autonomous.ShooterIntakeAutonParallelCmd;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -65,7 +66,7 @@ public class RobotContainer {
     public RobotContainer() {
 
         NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
-            ()->new ShooterIntakeAutonParallelCmd(FuelShooterSubsystem, IntakeSubsystem)));
+            ()->new ShooterAutonCommand(FuelShooterSubsystem)));
         NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
             ()->new IntakeReadyAutonCommand(IntakeSubsystem)));
         NamedCommands.registerCommand("StartIntake", Commands.runOnce(
@@ -136,8 +137,8 @@ public class RobotContainer {
             operator.rightTrigger()::getAsBoolean));
 
         ClimbSubsystem.setDefaultCommand(new ClimbCommand(ClimbSubsystem, 
-            driver.start()::getAsBoolean, driver.back()::getAsBoolean, driver.y()::getAsBoolean, driver.x()::getAsBoolean,
-            driver.a()::getAsBoolean));
+            operator.start()::getAsBoolean, operator.back()::getAsBoolean, operator.y()::getAsBoolean, operator.x()::getAsBoolean,
+            operator.a()::getAsBoolean)); //TODO: switch back to driver
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

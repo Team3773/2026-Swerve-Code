@@ -15,9 +15,9 @@ public class ClimbCommand extends Command {
   BooleanSupplier winchIn, winchRelease, climbStartPos, climbArmReady, climbPull;
   ClimbSubsystem climbSubsystem;
   
-  double startPosition = 0.25; //position in rotations
-  double readyPosition = -0.35;
-  double pullPosition = 0.0;
+  double startPosition = -0.25; //position in rotations
+  double readyPosition = 0.01;
+  double pullPosition = -0.1;
 
   public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn, 
   BooleanSupplier winchRelease, BooleanSupplier climbStartPos, BooleanSupplier climbArmReady, 

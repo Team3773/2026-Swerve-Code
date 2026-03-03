@@ -28,11 +28,13 @@ public class ShooterAutonCommand extends Command {
   public void initialize() {
     timer.reset();
     timer.start();
+    System.out.println("ShooterAuton Timer started!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("Running shooter...");
     fuelShooterSubsystem.runMotor(Constants.ShooterConstants.shooterSpeed); //Run shooter every loop
   }
 
@@ -41,6 +43,7 @@ public class ShooterAutonCommand extends Command {
   public void end(boolean interrupted) {
     fuelShooterSubsystem.runMotor(0.0);
     timer.stop();
+    System.out.println("ShooterAuton Timer stopped!");
   }
 
   // Returns true when the command should end.
