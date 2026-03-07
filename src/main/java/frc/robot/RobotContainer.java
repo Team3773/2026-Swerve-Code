@@ -27,13 +27,7 @@ import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
 import frc.robot.commands.autonomous.ShooterAutonCommand;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-import frc.robot.commands.autonomous.ShooterIntakeAutonParallelCmd;
->>>>>>> 93f7a20eb28fb024224aec30560e91a5e8cddbce
->>>>>>> 0b0e2c7426b033ee70125665c1856bb78d1499de
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -133,11 +127,7 @@ public class RobotContainer {
 
         IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem,
             operator.leftTrigger()::getAsBoolean, operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean));
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> 0b0e2c7426b033ee70125665c1856bb78d1499de
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean));
 
