@@ -29,6 +29,10 @@ import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
 import frc.robot.commands.autonomous.ShooterAutonCommand;
+<<<<<<< HEAD
+=======
+import frc.robot.commands.autonomous.ShooterIntakeAutonParallelCmd;
+>>>>>>> 93f7a20eb28fb024224aec30560e91a5e8cddbce
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -127,8 +131,8 @@ public class RobotContainer {
             operator.rightTrigger()::getAsBoolean));
 
         ClimbSubsystem.setDefaultCommand(new ClimbCommand(ClimbSubsystem, 
-            driver.start()::getAsBoolean, driver.back()::getAsBoolean, driver.y()::getAsBoolean, driver.x()::getAsBoolean,
-            driver.a()::getAsBoolean));
+            operator.start()::getAsBoolean, operator.back()::getAsBoolean, operator.y()::getAsBoolean, operator.x()::getAsBoolean,
+            operator.a()::getAsBoolean)); //TODO: switch back to driver
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

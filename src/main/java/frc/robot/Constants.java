@@ -21,8 +21,8 @@ public final class Constants {
         public static final int shooterShooterFollowingID = 17;
         public static final int shooterAgitatorID = 22;
         //Speeds
-        public static final double shooterSpeed = -1.0;
-        public static final double shooterReverseSpeed = 1.0;
+        public static final double shooterSpeed = -0.8;
+        public static final double shooterReverseSpeed = 0.8;
         public static final double agitatorSpeed = -0.25;
     }
 
