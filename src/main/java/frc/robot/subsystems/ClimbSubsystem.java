@@ -83,17 +83,9 @@ public class ClimbSubsystem extends SubsystemBase {
         winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
         armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        //Configure the encoder
-        CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
-        cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
-        cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        cc_cfg.MagnetSensor.MagnetOffset = Constants.ClimbConstants.armEncoderMagneticOffset;
-        armCancoder.getConfigurator().apply(cc_cfg);
-
         //Configure the arm motor
         closedLoopController = armMotor.getClosedLoopController();
     
-        closedLoopController = armMotor.getClosedLoopController();
 
         armConfig.encoder
         .positionConversionFactor(1.0/324.0)
