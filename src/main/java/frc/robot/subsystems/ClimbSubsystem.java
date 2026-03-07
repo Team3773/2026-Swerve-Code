@@ -53,54 +53,38 @@ public class ClimbSubsystem extends SubsystemBase {
         armMotor = new SparkMax(Constants.ClimbConstants.armID, MotorType.kBrushless);
         armCancoder = new CANcoder(Constants.ClimbConstants.armEncoderID);
 
-        closedLoopController = winchMotor.getClosedLoopController();
-    
-        encoder = winchMotor.getEncoder();
-
-        SparkMaxConfig winchConfig = new SparkMaxConfig();
-
-        /* 
-        winchConfig.encoder
-        .positionConversionFactor(1.0/324.0)
-        .velocityConversionFactor(1.0/324.0);
-
-        winchConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            // Set PID values for position control. We don't need to pass a closed loop
-            // slot, as it will default to slot 0.
-            .p(1)
-            .i(0)
-            .d(0)
-            .outputRange(-1, 1)
-            // Set PID values for velocity control in slot 1
-            .p(1, ClosedLoopSlot.kSlot1)
-            .i(0, ClosedLoopSlot.kSlot1)
-            .d(0, ClosedLoopSlot.kSlot1)
-            .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
-            .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-
-        */
-        winchConfig
-                .smartCurrentLimit(50)
-                .idleMode(IdleMode.kBrake);
-        
-        winchConfig.apply(winchConfig);
-        
-        winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-
         //Configure the encoder
         CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
         cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
         cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         cc_cfg.MagnetSensor.MagnetOffset = Constants.IntakeConstants.intakePivotEncoderMagneticOffset;
         armCancoder.getConfigurator().apply(cc_cfg);
-
-        //Configure the arm motor
-        closedLoopController = armMotor.getClosedLoopController();
     
+        encoder = winchMotor.getEncoder();
         encoder = armMotor.getEncoder();
 
+        SparkMaxConfig globalConfig = new SparkMaxConfig();
+        SparkMaxConfig winchConfig = new SparkMaxConfig();
         SparkMaxConfig armConfig = new SparkMaxConfig();
+
+        winchConfig
+                .smartCurrentLimit(50)
+                .idleMode(IdleMode.kBrake);
+        
+
+        globalConfig
+                .smartCurrentLimit(50)
+                .idleMode(IdleMode.kBrake);
+        
+
+        winchConfig.apply(winchConfig);
+        armConfig.apply(globalConfig);
+        
+        winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+    
+        closedLoopController = armMotor.getClosedLoopController();
 
         armConfig.encoder
         .positionConversionFactor(1.0/324.0)
@@ -110,25 +94,17 @@ public class ClimbSubsystem extends SubsystemBase {
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             // Set PID values for position control. We don't need to pass a closed loop
             // slot, as it will default to slot 0.
-            .p(1)
+            .p(0)
             .i(0)
             .d(0)
             .outputRange(-1, 1)
             // Set PID values for velocity control in slot 1
-            .p(1, ClosedLoopSlot.kSlot1)
+            .p(0, ClosedLoopSlot.kSlot1)
             .i(0, ClosedLoopSlot.kSlot1)
             .d(0, ClosedLoopSlot.kSlot1)
             .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
             .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
-
-        armConfig
-                .smartCurrentLimit(50)
-                .idleMode(IdleMode.kBrake);
-        
-        armConfig.apply(armConfig);
-        
-        armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         /*armMotor.configSelectedFeedbackSensor(      //This doesn't work because it isn't defined for TalonFXS
                   FeedbackDevice.Analog,				// Local Feedback Source
