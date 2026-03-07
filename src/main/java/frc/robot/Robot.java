@@ -9,6 +9,7 @@ import com.ctre.phoenix6.HootAutoReplay;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -52,6 +53,12 @@ public class Robot extends TimedRobot {
                 m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
             }
         }
+
+         double matchTime = DriverStation.getMatchTime();
+         SmartDashboard.putNumber("Match Time", matchTime);
+         int secs = Math.max(0, (int)Math.ceil(matchTime));
+         String mmss = String.format("%d:%02d", secs / 60, secs % 60);
+         SmartDashboard.putString("Match Time (mm:ss)", mmss);
     }
 
     @Override
