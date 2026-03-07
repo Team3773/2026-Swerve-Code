@@ -92,7 +92,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterSecondFeedMotor.set(-speed);
         shooterMotor.set(-speed);
         shooterFollowingMotor.set(speed);
-        System.out.println("Shooter motors' speed set to" + speed);
+        System.out.println("Shooter motors' speed set to " + speed);
     }
     
 }
