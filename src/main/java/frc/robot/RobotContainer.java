@@ -23,14 +23,10 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeGrabCommand;
-import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.ShooterIntakeCommandGroup;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
 import frc.robot.commands.autonomous.ShooterAutonCommand;
-import frc.robot.commands.autonomous.ShooterIntakeAutonParallelCmd;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -71,6 +67,12 @@ public class RobotContainer {
             ()->new IntakeReadyAutonCommand(IntakeSubsystem)));
         NamedCommands.registerCommand("StartIntake", Commands.runOnce(
             ()->new IntakeRunAutonCommand(IntakeSubsystem)));
+        /*NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
+            ()-> System.out.println("Shooter Auton Command Executed")));
+        NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
+            ()-> System.out.println("Ready Intake Command Executed")));
+        NamedCommands.registerCommand("StartIntake", Commands.runOnce(
+            ()-> System.out.println("Start Intake Command Executed")));*/
 
         autoChooser = AutoBuilder.buildAutoChooser("simpleauto");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -122,17 +124,9 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         driver.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        //IntakeSubsystem.setDefaultCommand(new IntakeGrabCommand(IntakeSubsystem,
-           // operator.leftTrigger()::getAsBoolean));
-        //IntakeSubsystem.setDefaultCommand(new IntakePivotCommand(IntakeSubsystem, 
-          // operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean));
-
         IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem,
             operator.leftTrigger()::getAsBoolean, operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean));
             
-        //FuelShooterSubsystem.setDefaultCommand(new ShooterIntakeCommandGroup(FuelShooterSubsystem, IntakeSubsystem, 
-           // operator.rightTrigger()::getAsBoolean));
-
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean));
 

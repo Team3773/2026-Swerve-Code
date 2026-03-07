@@ -76,11 +76,11 @@ public class IntakeSubsystem extends SubsystemBase {
         
         if (leftTriggerPressed) {
             intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
-            System.out.println("LT pressed, running intake grabber motors!");
+            //System.out.println("LT pressed, running intake grabber motors!");
         }
         else {
             intakeGrabMotor.set(0.0);
-            System.out.println("LT is NOT pressed, motors stopped!");
+            //System.out.println("LT is NOT pressed, motors stopped!");
         }
     }
 

@@ -6,7 +6,7 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.IntakePivotCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -29,7 +29,7 @@ public class IntakeReadyAutonCommand extends Command {
   @Override
   public void execute() {
     System.out.println("Moving intake to deployed position...");
-    intakeSubsystem.intakeGoToPosition(IntakePivotCommand.deployedPos);
+    intakeSubsystem.intakeGoToPosition(IntakeCommand.deployedPos);
   }
 
   // Called once the command ends or is interrupted.

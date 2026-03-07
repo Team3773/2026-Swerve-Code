@@ -23,7 +23,7 @@ public final class Constants {
         //Speeds
         public static final double shooterSpeed = -0.8;
         public static final double shooterReverseSpeed = 0.8;
-        public static final double agitatorSpeed = -0.25;
+        public static final double agitatorSpeed = -0.75;
     }
 
     public static final class ClimbConstants {
