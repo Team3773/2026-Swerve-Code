@@ -36,12 +36,19 @@ public class ShooterAutonCommand extends Command {
   public void execute() {
     System.out.println("Running shooter...");
     fuelShooterSubsystem.runMotor(Constants.ShooterConstants.shooterSpeed); //Run shooter every loop
+
+    if (timer.get() >= 1) {
+      fuelShooterSubsystem.runAgitator(Constants.ShooterConstants.agitatorSpeed); //Run agitator after 1 second
+    } else {
+      fuelShooterSubsystem.runAgitator(0.0); //Stop agitator until 1 second has passed
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     fuelShooterSubsystem.runMotor(0.0);
+    fuelShooterSubsystem.runAgitator(0.0);
     timer.stop();
     System.out.println("ShooterAuton Timer stopped!");
   }
