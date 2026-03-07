@@ -83,6 +83,15 @@ public class ClimbSubsystem extends SubsystemBase {
         winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
         armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
+        //Configure the encoder
+        CANcoderConfiguration cc_cfg = new CANcoderConfiguration();
+        cc_cfg.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
+        cc_cfg.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        cc_cfg.MagnetSensor.MagnetOffset = Constants.ClimbConstants.armEncoderMagneticOffset;
+        armCancoder.getConfigurator().apply(cc_cfg);
+
+        //Configure the arm motor
+        closedLoopController = armMotor.getClosedLoopController();
     
         closedLoopController = armMotor.getClosedLoopController();
 
@@ -94,7 +103,7 @@ public class ClimbSubsystem extends SubsystemBase {
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             // Set PID values for position control. We don't need to pass a closed loop
             // slot, as it will default to slot 0.
-            .p(0)
+            .p(500)
             .i(0)
             .d(0)
             .outputRange(-1, 1)
@@ -105,6 +114,14 @@ public class ClimbSubsystem extends SubsystemBase {
             .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
             .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
+
+        armConfig
+                .smartCurrentLimit(80)
+                .idleMode(IdleMode.kBrake);
+        
+        armConfig.apply(armConfig);
+        
+        armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         /*armMotor.configSelectedFeedbackSensor(      //This doesn't work because it isn't defined for TalonFXS
                   FeedbackDevice.Analog,				// Local Feedback Source

@@ -76,11 +76,11 @@ public class IntakeSubsystem extends SubsystemBase {
         
         if (leftTriggerPressed) {
             intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
-            System.out.println("LT pressed, running intake grabber motors!");
+            //System.out.println("LT pressed, running intake grabber motors!");
         }
         else {
             intakeGrabMotor.set(0.0);
-            System.out.println("LT is NOT pressed, motors stopped!");
+            //System.out.println("LT is NOT pressed, motors stopped!");
         }
     }
 
@@ -92,6 +92,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeGoToPosition(double position) {
         //just gonna yoink the pos for SmartDashboard
         requestedPos = position;
+
+        System.out.println("Going to " + position + " rotations...");
 
         // Trapezoid profile with max velocity 80 rps, max accel 160 rps/s
         final TrapezoidProfile m_profile = new TrapezoidProfile(

@@ -26,11 +26,13 @@ public class IntakeRunAutonCommand extends Command {
   public void initialize() {
     timer.reset();
     timer.start();
+    System.out.println("IntakeRunAuton Timer started!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("Running intake grabber...");
     intakeSubsystem.runIntakeGrabberVariable(Constants.IntakeConstants.intakeSpeed);
   }
 
@@ -39,6 +41,7 @@ public class IntakeRunAutonCommand extends Command {
   public void end(boolean interrupted) {
     intakeSubsystem.runIntakeGrabberVariable(0.0);
     timer.stop();
+    System.out.println("IntakeRunAuton Timer stopped!");
   }
 
   // Returns true when the command should end.

@@ -23,6 +23,7 @@ public class ShooterCommand extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     this.fuelShooterSubsystem = fuelShooterSubsystem;
     this.triggerSupplier = trigger;
+
     addRequirements(fuelShooterSubsystem);
   }
 
@@ -33,6 +34,7 @@ public class ShooterCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // pass only the current trigger state; subsystem tracks timing
     fuelShooterSubsystem.motorControl(this.triggerSupplier.getAsBoolean());
   }
 

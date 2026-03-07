@@ -15,9 +15,9 @@ public class ClimbCommand extends Command {
   BooleanSupplier winchIn, winchRelease, climbStartPos, climbArmReady, climbPull;
   ClimbSubsystem climbSubsystem;
   
-  double startPosition = -0.285; //position in rotations
-  double readyPosition = 0.0;
-  double pullPosition = -0.250;
+  double startPosition = -0.25; //position in rotations
+  double readyPosition = 0.01;
+  double pullPosition = -0.1;
 
   public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn, 
   BooleanSupplier winchRelease, BooleanSupplier climbStartPos, BooleanSupplier climbArmReady, 
@@ -44,7 +44,7 @@ public class ClimbCommand extends Command {
     } else if (climbArmReady.getAsBoolean()) {
       // Go to Climb Hook Position
       this.climbSubsystem.armGoToPosition(readyPosition);
-    } else if (climbStartPos.getAsBoolean()) { //This one will be removed later
+    } else if (climbStartPos.getAsBoolean()) {
       //Go to Zero Position
       this.climbSubsystem.armGoToPosition(startPosition);
     }
