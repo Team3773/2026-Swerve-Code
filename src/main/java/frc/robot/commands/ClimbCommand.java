@@ -44,7 +44,7 @@ public class ClimbCommand extends Command {
     } else if (climbArmReady.getAsBoolean()) {
       // Go to Climb Hook Position
       this.climbSubsystem.armGoToPosition(readyPosition);
-    } else if (climbStartPos.getAsBoolean()) { //This one will be removed later
+    } else if (climbStartPos.getAsBoolean()) {
       //Go to Zero Position
       this.climbSubsystem.armGoToPosition(startPosition);
     }
