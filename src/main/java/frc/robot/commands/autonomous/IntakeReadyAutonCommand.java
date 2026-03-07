@@ -14,6 +14,8 @@ public class IntakeReadyAutonCommand extends Command {
   /** Creates a new IntakeReadyAutonCommand. */
   IntakeSubsystem intakeSubsystem;
 
+  private final Timer timer = new Timer();
+
   public IntakeReadyAutonCommand(IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
@@ -23,24 +25,29 @@ public class IntakeReadyAutonCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.reset();
+    timer.start();
+    System.out.println("IntakeRunAuton Timer started!");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Moving intake to deployed position...");
+    //System.out.println("Moving intake to deployed position...");
     intakeSubsystem.intakeGoToPosition(IntakeCommand.deployedPos);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.stop();
     System.out.println("IntakeReadyAuton ended!");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer.get() >= 1.5;
   }
 }

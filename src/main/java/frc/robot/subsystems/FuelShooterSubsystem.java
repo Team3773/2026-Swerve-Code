@@ -25,6 +25,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
     // keep timing state in the subsystem
     private boolean triggerWasPressed = false;
     private double triggerStartTime = 0.0;
+    private double variableStartTime = 0.0;
 
     public FuelShooterSubsystem() {
 
@@ -88,11 +89,25 @@ public class FuelShooterSubsystem extends SubsystemBase {
     }
 
     public void runMotor(double speed) {
-        shooterFeedMotor.set(speed);
-        shooterSecondFeedMotor.set(-speed);
-        shooterMotor.set(-speed);
-        shooterFollowingMotor.set(speed);
-        System.out.println("Shooter motors' speed set to " + speed);
+        if (speed != 0.0) {
+            variableStartTime = Timer.getFPGATimestamp();
+            shooterFeedMotor.set(speed);
+            shooterSecondFeedMotor.set(-speed); //TODO: Test direction
+            shooterMotor.set(-speed);
+            shooterFollowingMotor.set(speed);
+            if (Timer.getFPGATimestamp() - variableStartTime >= 1.0) {
+                intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
+            } else {
+                intakeSecondAgitator.set(0.0);
+            }
+        } else {
+            variableStartTime = 0.0;
+            intakeSecondAgitator.set(0.0);
+            shooterFeedMotor.set(0.0);
+            shooterSecondFeedMotor.set(0.0);
+            shooterMotor.set(0.0);
+            shooterFollowingMotor.set(0.0);
+        }
     }
     
 }

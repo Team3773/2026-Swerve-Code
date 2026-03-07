@@ -93,7 +93,7 @@ public class IntakeSubsystem extends SubsystemBase {
         //just gonna yoink the pos for SmartDashboard
         requestedPos = position;
 
-        System.out.println("Going to " + position + " rotations...");
+        //System.out.println("Going to " + position + " rotations...");
 
         // Trapezoid profile with max velocity 80 rps, max accel 160 rps/s
         final TrapezoidProfile m_profile = new TrapezoidProfile(

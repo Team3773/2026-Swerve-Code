@@ -62,12 +62,9 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
-            ()->new ShooterAutonCommand(FuelShooterSubsystem)));
-        NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
-            ()->new IntakeReadyAutonCommand(IntakeSubsystem)));
-        NamedCommands.registerCommand("StartIntake", Commands.runOnce(
-            ()->new IntakeRunAutonCommand(IntakeSubsystem)));
+        NamedCommands.registerCommand("ShooterAuton", new ShooterAutonCommand(FuelShooterSubsystem)); 
+        NamedCommands.registerCommand("ReadyIntake", new IntakeReadyAutonCommand(IntakeSubsystem));
+        NamedCommands.registerCommand("StartIntake", new IntakeRunAutonCommand(IntakeSubsystem));
         /*NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
             ()-> System.out.println("Shooter Auton Command Executed")));
         NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
