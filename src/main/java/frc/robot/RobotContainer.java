@@ -55,7 +55,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final FuelShooterSubsystem FuelShooterSubsystem = new FuelShooterSubsystem();
     public final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
-    public final ClimbSubsystem ClimbSubsystem = new ClimbSubsystem();
+    public final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -128,9 +128,12 @@ public class RobotContainer {
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean));
 
-        ClimbSubsystem.setDefaultCommand(new ClimbCommand(ClimbSubsystem, 
-            operator.start()::getAsBoolean, operator.back()::getAsBoolean, operator.y()::getAsBoolean, operator.x()::getAsBoolean,
-            operator.a()::getAsBoolean)); //TODO: switch back to driver
+        climbSubsystem.setDefaultCommand(new ClimbCommand(climbSubsystem,
+            operator.start()::getAsBoolean,
+            operator.back()::getAsBoolean,
+            operator.y()::getAsBoolean,
+            operator.x()::getAsBoolean,
+            operator.a()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
