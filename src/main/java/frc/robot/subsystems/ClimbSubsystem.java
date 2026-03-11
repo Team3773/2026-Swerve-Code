@@ -32,8 +32,8 @@ public class ClimbSubsystem extends SubsystemBase {
     private final PIDController armPID;
 
     // Tune these! Start with a small kP and work up.
-    private static final double kP = 5.0;
-    private static final double kD = 0.1;
+    private static final double kP = 3.0;
+    private static final double kD = 0.9;
     // kI is usually not needed for position control and can cause windup — leave at 0
     private static final double kI = 0.0;
 
@@ -136,14 +136,16 @@ public class ClimbSubsystem extends SubsystemBase {
     // Periodic — software PID runs here every 20ms
     // ─────────────────────────────────────────────────────────────────────────
 
-    @Override
+    
+   @Override
     public void periodic() {
         double currentPos = armCancoder.getAbsolutePosition().getValueAsDouble();
         double currentVel = armCancoder.getVelocity().getValueAsDouble();
 
+        double output = 0.0;
         if (closedLoopEnabled) {
             // Calculate PID output using the live CANcoder position
-            double output = armPID.calculate(currentPos);
+            output = armPID.calculate(currentPos);
 
             // Clamp to safe output range
             output = MathUtil.clamp(output, -MAX_ARM_OUTPUT, MAX_ARM_OUTPUT);
@@ -156,7 +158,10 @@ public class ClimbSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Climb/CANcoder Pos",     currentPos);
         SmartDashboard.putNumber("Climb/CANcoder Vel",     currentVel);
         SmartDashboard.putNumber("Climb/PID Error",        armPID.getError());
+        SmartDashboard.putNumber("Climb/PID Output",       output);
         SmartDashboard.putBoolean("Climb/At Setpoint",     armPID.atSetpoint());
         SmartDashboard.putBoolean("Climb/Closed Loop On",  closedLoopEnabled);
+        SmartDashboard.putString("Climb/Current Command",
+            getCurrentCommand() != null ? getCurrentCommand().getName() : "none");
     }
 }
