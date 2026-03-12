@@ -25,7 +25,6 @@ public class FuelShooterSubsystem extends SubsystemBase {
     // keep timing state in the subsystem
     private boolean triggerWasPressed = false;
     private double triggerStartTime = 0.0;
-    private double variableStartTime = 0.0;
 
     public FuelShooterSubsystem() {
 

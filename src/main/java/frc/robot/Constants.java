@@ -35,4 +35,13 @@ public final class Constants {
         //Speeds
         public static final double winchMotorSpeed = 0.5;
     }
+
+    public static final class CANdleConstants {
+        //CAN IDs
+        public static final int CANdleID = 30;
+        //LED Count
+        public static final int LEDcount = 500;
+        //Brightness
+        public static final double brightness = 1.0;
+    }
 }

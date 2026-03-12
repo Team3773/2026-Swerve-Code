@@ -6,13 +6,15 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.FuelShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShooterCommand extends Command {
   /** Creates a new ShooterCommand. */
-
+  CANdleSubsystem candle;
   FuelShooterSubsystem fuelShooterSubsystem;
   BooleanSupplier triggerSupplier;
 
@@ -23,8 +25,9 @@ public class ShooterCommand extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     this.fuelShooterSubsystem = fuelShooterSubsystem;
     this.triggerSupplier = trigger;
+    this.candle = candle;
 
-    addRequirements(fuelShooterSubsystem);
+    addRequirements(fuelShooterSubsystem, candle);
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +39,8 @@ public class ShooterCommand extends Command {
   public void execute() {
     // pass only the current trigger state; subsystem tracks timing
     fuelShooterSubsystem.motorControl(this.triggerSupplier.getAsBoolean());
+    candle.setCANdleColor(0,255,0);
+    
   }
 
   // Called once the command ends or is interrupted.
