@@ -9,65 +9,84 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbSubsystem;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ClimbCommand extends Command {
-  /** Creates a new ClimbCommand. */
-  BooleanSupplier winchIn, winchRelease, climbStartPos, climbArmReady, climbPull;
-  ClimbSubsystem climbSubsystem;
-  
-  double startPosition = -0.25; //position in rotations
-  double readyPosition = 0.01;
-  double pullPosition = -0.1;
 
-  public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn, 
-  BooleanSupplier winchRelease, BooleanSupplier climbStartPos, BooleanSupplier climbArmReady, 
-  BooleanSupplier climbPull) {
+  private final BooleanSupplier winchIn, winchRelease, climbStartPos, climbArmReady, climbPull;
+  private final ClimbSubsystem climbSubsystem;
+
+  // Arm positions in CANcoder rotations — tune these to match your robot
+  private static final double START_POSITION = -0.25;
+  private static final double READY_POSITION =  0.01;
+  private static final double PULL_POSITION  = -0.1;
+
+  // Track last commanded position so we don't spam armGoToPosition() every loop
+  private double lastRequestedPos = Double.NaN;
+
+  public ClimbCommand(ClimbSubsystem climbSubsystem, BooleanSupplier winchIn,
+      BooleanSupplier winchRelease, BooleanSupplier climbStartPos,
+      BooleanSupplier climbArmReady, BooleanSupplier climbPull) {
+
     this.climbSubsystem = climbSubsystem;
-    this.winchIn = winchIn; //Start (Driver)
-    this.winchRelease = winchRelease; //Select/Back (Driver)
+    this.winchIn        = winchIn;       // Start (Driver)
+    this.winchRelease   = winchRelease;  // Select/Back (Driver)
+    this.climbStartPos  = climbStartPos; // Y (Driver)
+    this.climbArmReady  = climbArmReady; // X (Driver)
+    this.climbPull      = climbPull;     // A (Driver)
 
-    this.climbStartPos = climbStartPos; //Y (Driver)
-    this.climbArmReady = climbArmReady; //X (Driver)
-    this.climbPull = climbPull; //A (Driver)
     addRequirements(climbSubsystem);
   }
-  // Called when the command is initially scheduled.
+
   @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-     if (climbPull.getAsBoolean()) {
-      // Go to Climb Pull position
-      this.climbSubsystem.armGoToPosition(pullPosition);
-    } else if (climbArmReady.getAsBoolean()) {
-      // Go to Climb Hook Position
-      this.climbSubsystem.armGoToPosition(readyPosition);
-    } else if (climbStartPos.getAsBoolean()) {
-      //Go to Zero Position
-      this.climbSubsystem.armGoToPosition(startPosition);
-    }
-
-     if (winchIn.getAsBoolean()) {
-      this.climbSubsystem.runWinch();
-    } else if (winchRelease.getAsBoolean()) {
-      this.climbSubsystem.releaseWinch();
-    } else {
-      this.climbSubsystem.stopWinch();
-    }
-
+  public void initialize() {
+    // Reset state so the arm doesn't jump to a stale setpoint on re-schedule
+    lastRequestedPos = Double.NaN;
+    climbSubsystem.stopArm();
   }
 
-  // Called once the command ends or is interrupted.
+  @Override
+  public void execute() {
+
+    // ── Arm position control ────────────────────────────────────────────────
+    // Priority: climbPull > climbArmReady > climbStartPos
+    // Only call armGoToPosition() when the target changes — avoids resetting
+    // the PID every single loop tick.
+
+    double targetPos;
+
+    if (climbPull.getAsBoolean()) {
+      targetPos = PULL_POSITION;
+    } else if (climbArmReady.getAsBoolean()) {
+      targetPos = READY_POSITION;
+    } else if (climbStartPos.getAsBoolean()) {
+      targetPos = START_POSITION;
+    } else {
+      targetPos = Double.NaN; // No button held — don't change setpoint
+    }
+
+    if (!Double.isNaN(targetPos) && targetPos != lastRequestedPos) {
+      climbSubsystem.armGoToPosition(targetPos);
+      lastRequestedPos = targetPos;
+    }
+
+    // ── Winch control ───────────────────────────────────────────────────────
+    if (winchIn.getAsBoolean()) {
+      climbSubsystem.runWinch();
+    } else if (winchRelease.getAsBoolean()) {
+      climbSubsystem.releaseWinch();
+    } else {
+      climbSubsystem.stopWinch();
+    }
+  }
+
   @Override
   public void end(boolean interrupted) {
+    // Always stop everything when command ends
+    climbSubsystem.stopArm();
     climbSubsystem.stopWinch();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return false; // Runs until interrupted (correct for a driver-controlled command)
   }
 }
