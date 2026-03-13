@@ -47,6 +47,7 @@ public class ShooterCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     fuelShooterSubsystem.runMotor(0.0);
+    candle.setCANdleColor(255,130,20);
   }
 
   // Returns true when the command should end.
