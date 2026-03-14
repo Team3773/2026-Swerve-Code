@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.autonomous.AlignAndScoreCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
 import frc.robot.commands.autonomous.ShooterAutonCommand;
@@ -65,12 +66,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("ShooterAuton", new ShooterAutonCommand(FuelShooterSubsystem)); 
         NamedCommands.registerCommand("ReadyIntake", new IntakeReadyAutonCommand(IntakeSubsystem));
         NamedCommands.registerCommand("StartIntake", new IntakeRunAutonCommand(IntakeSubsystem));
-        /*NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
-            ()-> System.out.println("Shooter Auton Command Executed")));
-        NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
-            ()-> System.out.println("Ready Intake Command Executed")));
-        NamedCommands.registerCommand("StartIntake", Commands.runOnce(
-            ()-> System.out.println("Start Intake Command Executed")));*/
+        NamedCommands.registerCommand("AlignAndScore",new AlignAndScoreCommand(drivetrain, 7)); // replace 7 with your tag ID);
 
         autoChooser = AutoBuilder.buildAutoChooser("simpleauto");
         SmartDashboard.putData("Auto Mode", autoChooser);

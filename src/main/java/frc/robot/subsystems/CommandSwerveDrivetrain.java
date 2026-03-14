@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.LimelightHelpers;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -341,4 +342,38 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Optional<Pose2d> samplePoseAt(double timestampSeconds) {
         return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
     }
+
+    /**
+ * Returns the robot's current heading in degrees from the fused CTRE odometry state.
+ * Used to feed MegaTag2 robot orientation so the Limelight knows which way we're facing.
+ */
+    public double getHeadingDegrees() {
+    return getState().Pose.getRotation().getDegrees();
+    }
+
+    /**
+ * Feeds a fresh MegaTag2 vision measurement into the CTRE pose estimator.
+ * Safe to call from periodic() or from a command's initialize().
+ */
+public void updateVisionPose(String limelightName) {
+    // Tell the Limelight which way the robot is facing so MegaTag2 can solve correctly
+    LimelightHelpers.SetRobotOrientation(
+        limelightName,
+        getHeadingDegrees(),
+        0, 0, 0, 0, 0
+    );
+
+    LimelightHelpers.PoseEstimate mt2 =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+
+    // Reject the measurement if no tags are visible or the estimate is invalid
+    if (!LimelightHelpers.validPoseEstimate(mt2)) return;
+
+    // Reject if the robot is spinning too fast — MegaTag2 is unreliable above ~720 deg/s
+    if (Math.abs(getState().Speeds.omegaRadiansPerSecond) > Math.toRadians(720)) return;
+
+    // addVisionMeasurement in your class already handles the FPGA timestamp conversion
+    addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
 }
+}
+
