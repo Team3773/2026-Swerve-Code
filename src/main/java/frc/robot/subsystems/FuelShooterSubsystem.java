@@ -16,7 +16,7 @@ import frc.robot.Constants.ShooterConstants;
 
 public class FuelShooterSubsystem extends SubsystemBase {
 
-    private SparkMax shooterFeedMotor; //Wheel
+    private SparkFlex shooterFeedMotor; //Wheel
     private SparkMax shooterSecondFeedMotor; //Stars. Also, THIS IS THE FOURTH MOTOR ON THE SHOOTER, STOP PUTTING MORE!
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
@@ -29,7 +29,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
 
     public FuelShooterSubsystem() {
 
-        shooterFeedMotor = new SparkMax(Constants.ShooterConstants.shooterFeedID, MotorType.kBrushless);
+        shooterFeedMotor = new SparkFlex(Constants.ShooterConstants.shooterFeedID, MotorType.kBrushless);
         shooterSecondFeedMotor = new SparkMax(Constants.ShooterConstants.shooterSecondFeedID, MotorType.kBrushless);
         shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterID, MotorType.kBrushless);
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
