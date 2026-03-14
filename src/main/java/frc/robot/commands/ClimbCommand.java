@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
@@ -48,8 +44,6 @@ public class ClimbCommand extends Command {
 
     // ── Arm position control ────────────────────────────────────────────────
     // Priority: climbPull > climbArmReady > climbStartPos
-    // Only call armGoToPosition() when the target changes — avoids resetting
-    // the PID every single loop tick.
 
     double targetPos;
 
@@ -57,6 +51,7 @@ public class ClimbCommand extends Command {
       targetPos = PULL_POSITION;
     } else if (climbArmReady.getAsBoolean()) {
       targetPos = READY_POSITION;
+      climbSubsystem.runWinch(); // ← runs winch simultaneously with arm
     } else if (climbStartPos.getAsBoolean()) {
       targetPos = START_POSITION;
     } else {
@@ -73,7 +68,8 @@ public class ClimbCommand extends Command {
       climbSubsystem.runWinch();
     } else if (winchRelease.getAsBoolean()) {
       climbSubsystem.releaseWinch();
-    } else {
+    } else if (!climbArmReady.getAsBoolean()) {
+      // Only stop winch if climbArmReady isn't running it
       climbSubsystem.stopWinch();
     }
   }
