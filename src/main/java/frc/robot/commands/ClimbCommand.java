@@ -16,7 +16,7 @@ public class ClimbCommand extends Command {
 
   // Arm positions in CANcoder rotations — tune these to match your robot
   private static final double START_POSITION = -0.25;
-  private static final double READY_POSITION =  0.01;
+  private static final double READY_POSITION =  0.04;
   private static final double PULL_POSITION  = -0.1;
 
   // Track last commanded position so we don't spam armGoToPosition() every loop

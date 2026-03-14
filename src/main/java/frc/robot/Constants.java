@@ -33,6 +33,6 @@ public final class Constants {
         public static final int armEncoderID = 18;
         public static final double armEncoderMagneticOffset = 0;
         //Speeds
-        public static final double winchMotorSpeed = 0.5;
+        public static final double winchMotorSpeed = 1.0;
     }
 }

@@ -64,7 +64,7 @@ public class ClimbSubsystem extends SubsystemBase {
         SparkMaxConfig armConfig = new SparkMaxConfig();
         armConfig
                 .smartCurrentLimit(80)
-                .idleMode(IdleMode.kBrake);
+                .idleMode(IdleMode.kCoast);
         armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         // ── CANcoder ──────────────────────────────────────────────────────────
