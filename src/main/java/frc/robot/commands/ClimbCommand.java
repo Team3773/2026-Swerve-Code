@@ -51,10 +51,18 @@ public class ClimbCommand extends Command {
       targetPos = PULL_POSITION;
     } else if (climbArmReady.getAsBoolean()) {
       targetPos = READY_POSITION;
-      climbSubsystem.releaseWinch(); // ← runs winch simultaneously with arm
+      if (climbSubsystem.armAtSetpoint()) {
+        climbSubsystem.stopWinch(); // stops winch once arm reaches position
+      } else {
+        climbSubsystem.runWinch(); // runs winch while arm is still moving
+      }
     } else if (climbStartPos.getAsBoolean()) {
       targetPos = START_POSITION;
-      climbSubsystem.runWinch(); // ← runs winch simultaneously with arm
+      if (climbSubsystem.armAtSetpoint()) {
+        climbSubsystem.stopWinch(); // stops winch once arm reaches position
+      } else {
+        climbSubsystem.runWinch(); // runs winch while arm is still moving
+      }
     } else {
       targetPos = Double.NaN; // No button held — don't change setpoint
     }
