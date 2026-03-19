@@ -7,6 +7,12 @@
         {
           "type": "named",
           "data": {
+            "name": "ReadyIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "ShooterAuton"
           }
         },
@@ -14,18 +20,6 @@
           "type": "path",
           "data": {
             "pathName": "Blue1Path1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ReadyIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
           }
         },
         {

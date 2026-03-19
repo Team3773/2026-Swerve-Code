@@ -7,37 +7,19 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterAuton"
+            "name": "ReadyIntake"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 5.0
+            "name": "ShooterAuton"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Red1Path1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ReadyIntake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
           }
         },
         {

@@ -47,6 +47,6 @@ public class IntakeRunAutonCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= 5; //Runs for 10 seconds
+    return timer.get() >= 5; //Runs for 5 seconds
   }
 }

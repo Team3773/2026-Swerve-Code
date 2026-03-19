@@ -27,11 +27,11 @@ public class ClimbCommand extends Command {
       BooleanSupplier climbArmReady, BooleanSupplier climbPull) {
 
     this.climbSubsystem = climbSubsystem;
-    this.winchIn        = winchIn;       // Start (Driver)
-    this.winchRelease   = winchRelease;  // Select/Back (Driver)
-    this.climbStartPos  = climbStartPos; // Y (Driver)
-    this.climbArmReady  = climbArmReady; // X (Driver)
-    this.climbPull      = climbPull;     // A (Driver)
+    this.winchIn        = winchIn;       // Start (Operator)
+    this.winchRelease   = winchRelease;  // Select/Back (Operator)
+    this.climbStartPos  = climbStartPos; // Y (Operator)
+    this.climbArmReady  = climbArmReady; // A (Operator)
+    this.climbPull      = climbPull;     // x (Operator)
 
     addRequirements(climbSubsystem);
   }
@@ -87,6 +87,6 @@ public class ClimbCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return false; // Runs until interrupted (correct for a driver-controlled command)
+    return false; // Runs until interrupted (correct for a Operator-controlled command)
   }
 }

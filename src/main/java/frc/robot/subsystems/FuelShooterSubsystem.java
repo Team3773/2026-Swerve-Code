@@ -6,6 +6,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -17,7 +18,7 @@ import frc.robot.Constants.ShooterConstants;
 public class FuelShooterSubsystem extends SubsystemBase {
 
     private SparkFlex shooterFeedMotor; //Wheel
-    private SparkMax shooterSecondFeedMotor; //Stars. Also, THIS IS THE FOURTH MOTOR ON THE SHOOTER, STOP PUTTING MORE!
+    private SparkMax shooterSecondFeedMotor; //Another Wheel
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
     private SparkMax intakeSecondAgitator;
@@ -35,15 +36,18 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
         intakeSecondAgitator = new SparkMax(Constants.ShooterConstants.shooterAgitatorID, MotorType.kBrushless);
 
-        /*SparkFlexConfig globalConfig = new SparkFlexConfig();
-        SparkFlexConfig leaderConfig = new SparkFlexConfig();
-        SparkFlexConfig followerConfig = new SparkFlexConfig();
+        SparkMaxConfig globalConfig = new SparkMaxConfig();
+        /*SparkFlexConfig leaderConfig = new SparkFlexConfig();
+        SparkFlexConfig followerConfig = new SparkFlexConfig();*/
 
         globalConfig
-            .smartCurrentLimit(120)
+            .smartCurrentLimit(25)
             .idleMode(IdleMode.kCoast);
+
+        shooterFeedMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        shooterSecondFeedMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
         
-        leaderConfig.apply(globalConfig);
+        /*leaderConfig.apply(globalConfig);
         followerConfig.apply(globalConfig).follow(shooterMotor);
         
         shooterMotor.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -61,8 +65,8 @@ public class FuelShooterSubsystem extends SubsystemBase {
             }
 
             // keep shooter motors running while trigger held
-            shooterFeedMotor.set(ShooterConstants.shooterSpeed);
-            shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed); //TODO: Test direction
+            shooterFeedMotor.set(ShooterConstants.shooterSpeed / 2);
+            shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed / 2); //TODO: Test direction
             shooterMotor.set(ShooterConstants.shooterReverseSpeed);
             shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
 

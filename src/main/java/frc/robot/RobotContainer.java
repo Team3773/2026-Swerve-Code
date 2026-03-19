@@ -132,8 +132,8 @@ public class RobotContainer {
             operator.start()::getAsBoolean,
             operator.back()::getAsBoolean,
             operator.y()::getAsBoolean,
-            operator.x()::getAsBoolean,
-            operator.a()::getAsBoolean));
+            operator.a()::getAsBoolean,
+            operator.x()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

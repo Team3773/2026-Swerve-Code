@@ -23,12 +23,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "StartIntake"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Blue3Path2"
