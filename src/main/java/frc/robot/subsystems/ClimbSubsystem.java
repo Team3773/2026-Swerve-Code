@@ -55,7 +55,7 @@ public class ClimbSubsystem extends SubsystemBase {
         winchMotor = new SparkMax(Constants.ClimbConstants.winchID, MotorType.kBrushless);
         SparkMaxConfig winchConfig = new SparkMaxConfig();
         winchConfig
-                .smartCurrentLimit(10)
+                .smartCurrentLimit(20)
                 .idleMode(IdleMode.kBrake);
         winchMotor.configure(winchConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
@@ -63,7 +63,7 @@ public class ClimbSubsystem extends SubsystemBase {
         armMotor = new SparkMax(Constants.ClimbConstants.armID, MotorType.kBrushless);
         SparkMaxConfig armConfig = new SparkMaxConfig();
         armConfig
-                .smartCurrentLimit(5)
+                .smartCurrentLimit(25)
                 .idleMode(IdleMode.kCoast);
         armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
