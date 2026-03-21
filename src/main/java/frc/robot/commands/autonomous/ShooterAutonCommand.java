@@ -55,6 +55,6 @@ public class ShooterAutonCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= 5; //Runs for 3 seconds
+    return timer.get() >= 6; //Runs for 3 seconds
   }
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.201768901569186,
-        "y": 4.041469329529244
+        "x": 3.728530670475461,
+        "y": 7.438472381422253
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3094753991012724,
-        "y": 5.376762478107881
+        "x": 2.693437945791726,
+        "y": 7.2890727532097
       },
       "isLocked": false,
       "linkedName": null
@@ -91,8 +91,26 @@
     }
   ],
   "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.575,
+        "y": 4.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.25,
+      "maxWaypointRelativePos": 1.3352462936393918,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "ShooterAuton",
+      "waypointRelativePos": 0.5853658536585299,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3,
     "maxAcceleration": 3,
