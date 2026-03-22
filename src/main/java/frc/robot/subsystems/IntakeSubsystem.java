@@ -72,11 +72,13 @@ public class IntakeSubsystem extends SubsystemBase {
         intakePivotMotor.getConfigurator().apply(slot0Configs);
     }
 
-    public void runIntakeGrabber(boolean leftTriggerPressed) {
+    public void runIntakeGrabber(boolean leftTriggerPressed, boolean leftBumperPressed) {
         
         if (leftTriggerPressed) {
             intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
             //System.out.println("LT pressed, running intake grabber motors!");
+        } else if (leftBumperPressed) {
+            intakeGrabMotor.set(-Constants.IntakeConstants.intakeSpeed);
         }
         else {
             intakeGrabMotor.set(0.0);

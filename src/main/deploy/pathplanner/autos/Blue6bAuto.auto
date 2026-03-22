@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ReadyIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue6Path1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterAuton"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue6Path2b"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterAuton"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

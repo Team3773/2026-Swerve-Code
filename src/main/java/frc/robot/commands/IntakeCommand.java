@@ -14,16 +14,17 @@ public class IntakeCommand extends Command {
   /** Creates a new IntakeCommand. */
   
   IntakeSubsystem intakeSubsystem;
-  BooleanSupplier triggerSupplier, intakeIn, intakeOut;
+  BooleanSupplier triggerSupplier, intakeIn, intakeOut, intakeReverse;
 
   public static double startPos = 0.0;
   public static double deployedPos = -0.285;
 
-  public IntakeCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier triggerSupplier, BooleanSupplier intakeIn, BooleanSupplier intakeOut) {
+  public IntakeCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier triggerSupplier, BooleanSupplier intakeIn, BooleanSupplier intakeOut, BooleanSupplier intakeReverse) {
     this.intakeSubsystem = intakeSubsystem;
     this.triggerSupplier = triggerSupplier; //LT
     this.intakeIn = intakeIn; //DPad Up
     this.intakeOut = intakeOut; //DPad Down
+    this.intakeReverse = intakeReverse;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
 
@@ -36,7 +37,7 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.runIntakeGrabber(this.triggerSupplier.getAsBoolean());
+    intakeSubsystem.runIntakeGrabber(this.triggerSupplier.getAsBoolean(), this.intakeReverse.getAsBoolean());
     
     if (intakeOut.getAsBoolean()) {
       //Put the intake out
