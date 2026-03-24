@@ -154,7 +154,7 @@ public class ClimbSubsystem extends SubsystemBase {
         }
 
         // ── SmartDashboard telemetry ──────────────────────────────────────────
-        SmartDashboard.putNumber("Climb/Requested Pos",    requestedPos);
+        /*SmartDashboard.putNumber("Climb/Requested Pos",    requestedPos);
         SmartDashboard.putNumber("Climb/CANcoder Pos",     currentPos);
         SmartDashboard.putNumber("Climb/CANcoder Vel",     currentVel);
         SmartDashboard.putNumber("Climb/PID Error",        armPID.getError());
@@ -162,6 +162,6 @@ public class ClimbSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Climb/At Setpoint",     armPID.atSetpoint());
         SmartDashboard.putBoolean("Climb/Closed Loop On",  closedLoopEnabled);
         SmartDashboard.putString("Climb/Current Command",
-            getCurrentCommand() != null ? getCurrentCommand().getName() : "none");
+            getCurrentCommand() != null ? getCurrentCommand().getName() : "none");*/
     }
 }

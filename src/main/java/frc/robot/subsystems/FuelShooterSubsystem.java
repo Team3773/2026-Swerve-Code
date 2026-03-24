@@ -65,8 +65,8 @@ public class FuelShooterSubsystem extends SubsystemBase {
             }
 
             // keep shooter motors running while trigger held
-            shooterFeedMotor.set(ShooterConstants.shooterSpeed / 2);
-            shooterSecondFeedMotor.set(ShooterConstants.shooterReverseSpeed / 2); //TODO: Test direction
+            shooterFeedMotor.set(ShooterConstants.shooterFeedSpeed);
+            shooterSecondFeedMotor.set(-ShooterConstants.shooterFeedSpeed); //TODO: Test direction
             shooterMotor.set(ShooterConstants.shooterReverseSpeed);
             shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
 
