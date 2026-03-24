@@ -2,7 +2,7 @@ package frc.robot;
 
 public final class Constants {
     //Make classes for each subsystem
-    //TODO: put in the correct CAN IDs when we actually hook these up
+    //CAN does not care that there is a gap in the IDs, but it will care when the bus is not chained correctly
     public static final class IntakeConstants {
         //CAN IDs
         public static final int intakePivotID = 23;
@@ -21,12 +21,13 @@ public final class Constants {
         public static final int shooterShooterFollowingID = 17;
         public static final int shooterAgitatorID = 22;
         //Speeds
-        public static final double shooterSpeed = -0.65; //Was -0.7
-        public static final double shooterReverseSpeed = 0.65;
+        public static final double shooterSpeed = -0.55; //Was -0.7
+        public static final double shooterReverseSpeed = 0.55;
+        public static final double shooterFeedSpeed = -0.75;
         public static final double agitatorSpeed = -0.75;
     }
 
-    public static final class ClimbConstants {
+    public static final class ClimbConstants { //Ignore these
         //CAN IDs
         public static final int winchID = 24;
         public static final int armID = 19;

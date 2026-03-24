@@ -55,7 +55,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final FuelShooterSubsystem FuelShooterSubsystem = new FuelShooterSubsystem();
     public final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
-    public final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+    public final ClimbSubsystem climbSubsystem = new ClimbSubsystem(); //Remove climb code when sure
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -87,10 +87,11 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed / 2) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed / 2) // Drive left with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed / 1.5) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed / 1.5
+                    ) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            )
+            ) //TODO: Increase Speed
         );
 
         // Idle while the robot is disabled. This ensures the configured
@@ -128,12 +129,12 @@ public class RobotContainer {
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean));
 
-        climbSubsystem.setDefaultCommand(new ClimbCommand(climbSubsystem,
+        /*climbSubsystem.setDefaultCommand(new ClimbCommand(climbSubsystem,
             operator.start()::getAsBoolean,
             operator.back()::getAsBoolean,
             operator.y()::getAsBoolean,
             operator.a()::getAsBoolean,
-            operator.x()::getAsBoolean));
+            operator.x()::getAsBoolean)); */
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
