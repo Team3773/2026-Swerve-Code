@@ -127,7 +127,7 @@ public class RobotContainer {
             operator.leftTrigger()::getAsBoolean, operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean, operator.leftBumper()::getAsBoolean));
 
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
-            operator.rightTrigger()::getAsBoolean));
+            operator.rightTrigger()::getAsBoolean, operator.rightBumper()::getAsBoolean, operator.start()::getAsBoolean));
 
         /*climbSubsystem.setDefaultCommand(new ClimbCommand(climbSubsystem,
             operator.start()::getAsBoolean,

@@ -23,6 +23,13 @@ public final class Constants {
         //Speeds
         public static final double shooterSpeed = -0.55; //Was -0.7
         public static final double shooterReverseSpeed = 0.55;
+
+        public static final double shooterFastSpeed = -0.7;
+        public static final double shooterFastReverseSpeed = 0.7;
+
+        public static final double shooterMaxSpeed = -1.0;
+        public static final double shooterMaxReverseSpeed = 1.0;
+
         public static final double shooterFeedSpeed = -0.75;
         public static final double agitatorSpeed = -0.75;
     }
