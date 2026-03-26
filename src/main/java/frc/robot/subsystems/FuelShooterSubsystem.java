@@ -68,16 +68,16 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterFeedMotor.set(ShooterConstants.shooterFeedSpeed);
             shooterSecondFeedMotor.set(-ShooterConstants.shooterFeedSpeed);
 
-            if (rightBumperPressed && startPressed) { //Not needed in a normal match, given how far the fuel goes
+            if (rightBumperPressed && startPressed) { //Max (+RB+Start). Not needed in a normal match, given how far the fuel goes
                 shooterMotor.set(ShooterConstants.shooterMaxReverseSpeed);
                 shooterFollowingMotor.set(ShooterConstants.shooterMaxSpeed);
                 System.out.println("MAX SPEED ACTIVATED!");
-            } else if (rightBumperPressed) {
+            } else if (rightBumperPressed) { //Fast (+RB)
                 shooterMotor.set(ShooterConstants.shooterFastReverseSpeed);
                 shooterFollowingMotor.set(ShooterConstants.shooterFastSpeed);
                 System.out.println("Fast speed activated!");
             }
-            else {
+            else { //Normal
                 shooterMotor.set(ShooterConstants.shooterReverseSpeed);
                 shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
             }

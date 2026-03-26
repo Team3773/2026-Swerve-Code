@@ -56,6 +56,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // PIDs — don't touch unless setpoints aren't being reached.
         // If it won't reach the DOWN setpoint, try increasing kD first.
+        // These values were moved into Constants.
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.kP = Constants.IntakeConstants.intakePivot_kP;
         slot0Configs.kI = Constants.IntakeConstants.intakePivot_kI;
@@ -94,15 +95,6 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeGoToPosition(double position) {
         requestedPos = position;
         intakePivotMotor.setControl(m_request.withPosition(position));
-    }
-
-    /**
-     * Zeroes the pivot motor's internal position sensor to the current CANcoder reading.
-     * Call this after a hard stop or if the arm was moved manually.
-     */
-    public void resetPosition() {
-        double currentPos = intakeCancoder.getAbsolutePosition().getValueAsDouble();
-        intakePivotMotor.setPosition(currentPos);
     }
 
     // ---------------------------------------------------------------------------
