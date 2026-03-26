@@ -9,8 +9,18 @@ public final class Constants {
         public static final int intakeGrabID = 20;
         public static final int intakePivotEncoderID = 21;
         public static final double intakePivotEncoderMagneticOffset = 0;
+
         //Speeds
-        public static final double intakeSpeed = 0.85;
+        public static final double intakeSpeed = 0.60;
+
+        // Setpoints
+        public static final double intakeDownSetpoint = -0.32;
+        public static final double intakeUpSetpoint = -0.07;
+
+        // PID Values
+        public static final double intakePivot_kP = 16.0;
+        public static final double intakePivot_kI = 0.0;
+        public static final double intakePivot_kD = 0.1;
     }
 
     public static final class ShooterConstants {
@@ -20,6 +30,7 @@ public final class Constants {
         public static final int shooterShooterID = 16;
         public static final int shooterShooterFollowingID = 17;
         public static final int shooterAgitatorID = 22;
+
         //Speeds
         public static final double shooterSpeed = -0.55; //Was -0.7
         public static final double shooterReverseSpeed = 0.55;
@@ -32,15 +43,5 @@ public final class Constants {
 
         public static final double shooterFeedSpeed = -0.75;
         public static final double agitatorSpeed = -0.75;
-    }
-
-    public static final class ClimbConstants { //Ignore these
-        //CAN IDs
-        public static final int winchID = 24;
-        public static final int armID = 19;
-        public static final int armEncoderID = 18;
-        public static final double armEncoderMagneticOffset = 0;
-        //Speeds
-        public static final double winchMotorSpeed = 1.0;
     }
 }
