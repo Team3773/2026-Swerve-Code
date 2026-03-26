@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
@@ -29,7 +28,6 @@ import frc.robot.commands.autonomous.IntakeRunAutonCommand;
 import frc.robot.commands.autonomous.ShooterAutonCommand;
 
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -55,7 +53,6 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final FuelShooterSubsystem FuelShooterSubsystem = new FuelShooterSubsystem();
     public final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
-    public final ClimbSubsystem climbSubsystem = new ClimbSubsystem(); //Remove climb code when sure
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -128,13 +125,6 @@ public class RobotContainer {
 
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean, operator.rightBumper()::getAsBoolean, operator.start()::getAsBoolean));
-
-        /*climbSubsystem.setDefaultCommand(new ClimbCommand(climbSubsystem,
-            operator.start()::getAsBoolean,
-            operator.back()::getAsBoolean,
-            operator.y()::getAsBoolean,
-            operator.a()::getAsBoolean,
-            operator.x()::getAsBoolean)); */
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

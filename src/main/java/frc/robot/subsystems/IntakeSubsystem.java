@@ -57,9 +57,9 @@ public class IntakeSubsystem extends SubsystemBase {
         // PIDs — don't touch unless setpoints aren't being reached.
         // If it won't reach the DOWN setpoint, try increasing kD first.
         Slot0Configs slot0Configs = new Slot0Configs();
-        slot0Configs.kP = 1;
-        slot0Configs.kI = 0;
-        slot0Configs.kD = 0;
+        slot0Configs.kP = Constants.IntakeConstants.intakePivot_kP;
+        slot0Configs.kI = Constants.IntakeConstants.intakePivot_kI;
+        slot0Configs.kD = Constants.IntakeConstants.intakePivot_kD;
 
         intakePivotMotor.getConfigurator().apply(fx_cfg);
         intakePivotMotor.getConfigurator().apply(slot0Configs);
