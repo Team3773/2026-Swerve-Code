@@ -10,7 +10,7 @@ public final class Constants {
         public static final int intakePivotEncoderID = 21;
         public static final double intakePivotEncoderMagneticOffset = 0;
         //Speeds
-        public static final double intakeSpeed = -0.85;
+        public static final double intakeSpeed = 0.85;
     }
 
     public static final class ShooterConstants {

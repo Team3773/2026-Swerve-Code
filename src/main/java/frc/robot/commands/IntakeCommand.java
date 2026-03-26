@@ -16,8 +16,8 @@ public class IntakeCommand extends Command {
   IntakeSubsystem intakeSubsystem;
   BooleanSupplier triggerSupplier, intakeIn, intakeOut, intakeReverse;
 
-  public static double startPos = 0.0;
-  public static double deployedPos = -0.285;
+  public static double startPos = -0.07;
+  public static double deployedPos = -0.32;
 
   public IntakeCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier triggerSupplier, BooleanSupplier intakeIn, BooleanSupplier intakeOut, BooleanSupplier intakeReverse) {
     this.intakeSubsystem = intakeSubsystem;
