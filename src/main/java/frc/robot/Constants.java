@@ -11,16 +11,16 @@ public final class Constants {
         public static final double intakePivotEncoderMagneticOffset = 0;
 
         //Speeds
-        public static final double intakeSpeed = 0.85;
+        public static final double intakeSpeed = 0.60;
 
         // Setpoints
         public static final double intakeDownSetpoint = -0.32;
         public static final double intakeUpSetpoint = -0.07;
 
         // PID Values
-        public static final double intakePivot_kP = 1.0;
+        public static final double intakePivot_kP = 16.0;
         public static final double intakePivot_kI = 0.0;
-        public static final double intakePivot_kD = 0.0;
+        public static final double intakePivot_kD = 0.1;
     }
 
     public static final class ShooterConstants {
