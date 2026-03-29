@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.020627674750356,
-        "y": 2.320627674750357
+        "x": 2.2794008559201138,
+        "y": 2.4758915834522113
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0206276747503567,
-        "y": 2.3206276747503565
+        "x": 3.279400855920114,
+        "y": 2.475891583452211
       },
       "isLocked": false,
       "linkedName": "Blue5Path1to2"
@@ -128,12 +128,12 @@
     },
     {
       "anchor": {
-        "x": 2.020627674750356,
-        "y": 2.320627674750357
+        "x": 2.2794008559201138,
+        "y": 2.4758915834522113
       },
       "prevControl": {
-        "x": 3.379186875891584,
-        "y": 1.0008844507845935
+        "x": 3.6379600570613415,
+        "y": 1.156148359486448
       },
       "nextControl": null,
       "isLocked": false,
@@ -195,13 +195,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 33.74229702793302
+    "rotation": 33.76305574065524
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 33.74229702793302
+    "rotation": 33.76305574065524
   },
   "useDefaultConstraints": true
 }

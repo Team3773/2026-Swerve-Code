@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.020627674750356,
-        "y": 2.320627674750357
+        "x": 2.2794008559201138,
+        "y": 2.4758915834522113
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.112005452528133,
-        "y": 2.7298943414170243
+        "x": 3.3707786336978907,
+        "y": 2.8851582501188786
       },
       "isLocked": false,
       "linkedName": "Blue5Path1to2"
@@ -150,7 +150,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 33.74229702793302
+    "rotation": 33.76305574065524
   },
   "useDefaultConstraints": true
 }
