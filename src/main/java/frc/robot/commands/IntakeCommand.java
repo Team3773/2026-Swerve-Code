@@ -70,8 +70,8 @@ public class IntakeCommand extends Command {
         movingToDeployed = false;
       }
     } else {
-      intakeSubsystem.intakeGoToPosition(startPos);
-      if (Math.abs(currentPos - startPos) < POSITION_THRESHOLD) {
+      intakeSubsystem.intakeGoToPosition(oscillate);
+      if (Math.abs(currentPos - oscillate) < POSITION_THRESHOLD) {
         movingToDeployed = true;
       }
     }
