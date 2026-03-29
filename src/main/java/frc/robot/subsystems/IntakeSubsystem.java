@@ -97,6 +97,10 @@ public class IntakeSubsystem extends SubsystemBase {
         intakePivotMotor.setControl(m_request.withPosition(position));
     }
 
+    public double getIntakePosition() {
+        return intakePivotMotor.getPosition().getValueAsDouble();
+    }
+
     // ---------------------------------------------------------------------------
     // Subsystem periodic
     // ---------------------------------------------------------------------------

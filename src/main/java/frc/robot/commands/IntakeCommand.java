@@ -21,6 +21,10 @@ public class IntakeCommand extends Command {
   public static double startPos = Constants.IntakeConstants.intakeUpSetpoint;
   public static double deployedPos = Constants.IntakeConstants.intakeDownSetpoint;
 
+  private static final double POSITION_THRESHOLD = 1.0; // Adjust as needed
+
+  boolean movingToDeployed = true;
+
   public IntakeCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier triggerSupplier, BooleanSupplier intakeIn, BooleanSupplier intakeOut, BooleanSupplier intakeReverse) {
     this.intakeSubsystem = intakeSubsystem;
     this.triggerSupplier = triggerSupplier; //LT
@@ -34,20 +38,41 @@ public class IntakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    movingToDeployed = true;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     intakeSubsystem.runIntakeGrabber(this.triggerSupplier.getAsBoolean(), this.intakeReverse.getAsBoolean());
     
-    if (intakeOut.getAsBoolean()) {
+    if (triggerSupplier.getAsBoolean()) {
+      oscillate();
+    }
+    else if (intakeOut.getAsBoolean()) {
       //Put the intake out
       this.intakeSubsystem.intakeGoToPosition(deployedPos);
     }
     else if (intakeIn.getAsBoolean()) {
       //Put the intake in
       this.intakeSubsystem.intakeGoToPosition(startPos);
+    }
+  }
+
+  private void oscillate() {
+    double currentPos = intakeSubsystem.getIntakePosition();
+
+    if (movingToDeployed) {
+      intakeSubsystem.intakeGoToPosition(deployedPos);
+      if (Math.abs(currentPos - deployedPos) < POSITION_THRESHOLD) {
+        movingToDeployed = false;
+      }
+    } else {
+      intakeSubsystem.intakeGoToPosition(startPos);
+      if (Math.abs(currentPos - startPos) < POSITION_THRESHOLD) {
+        movingToDeployed = true;
+      }
     }
   }
 
