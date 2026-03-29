@@ -55,7 +55,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
     } 
 
     // now the subsystem tracks how long the trigger has been held
-    public void motorControl(boolean rightTriggerPressed, boolean rightBumperPressed, boolean startPressed) {
+    public void motorControl(boolean rightTriggerPressed, boolean rightBumperPressed, boolean startPressed, boolean backPressed) {
         if (rightTriggerPressed) {
             // started pressing this cycle
             if (!triggerWasPressed) {
@@ -68,7 +68,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterFeedMotor.set(ShooterConstants.shooterFeedSpeed);
             shooterSecondFeedMotor.set(-ShooterConstants.shooterFeedSpeed);
 
-            if (rightBumperPressed && startPressed) { //Max (+RB+Start). Not needed in a normal match, given how far the fuel goes
+            if (rightBumperPressed && startPressed) { //Max (+RB+Start). Not needed in matches, given how far the fuel is shot
                 shooterMotor.set(ShooterConstants.shooterMaxReverseSpeed);
                 shooterFollowingMotor.set(ShooterConstants.shooterMaxSpeed);
                 System.out.println("MAX SPEED ACTIVATED!");
@@ -82,8 +82,11 @@ public class FuelShooterSubsystem extends SubsystemBase {
                 shooterFollowingMotor.set(ShooterConstants.shooterSpeed);
             }
 
-            // after ~2 seconds, start the agitator
-            if (Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
+            if (backPressed) {
+                intakeSecondAgitator.set(-ShooterConstants.agitatorSpeed);
+            }
+            // after 1 second, start the agitator
+            else if (Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
                 intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
             } else {
                 intakeSecondAgitator.set(0.0);

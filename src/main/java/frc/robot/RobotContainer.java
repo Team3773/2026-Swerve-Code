@@ -84,8 +84,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed / 1.5) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed / 1.5
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed / 1.25) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed / 1.25
                     ) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             ) //TODO: Increase Speed
@@ -124,7 +124,8 @@ public class RobotContainer {
             operator.leftTrigger()::getAsBoolean, operator.povUp()::getAsBoolean, operator.povDown()::getAsBoolean, operator.leftBumper()::getAsBoolean));
 
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
-            operator.rightTrigger()::getAsBoolean, operator.rightBumper()::getAsBoolean, operator.start()::getAsBoolean));
+            operator.rightTrigger()::getAsBoolean, operator.rightBumper()::getAsBoolean, operator.start()::getAsBoolean, 
+            operator.back()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

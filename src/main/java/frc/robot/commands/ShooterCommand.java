@@ -14,9 +14,10 @@ public class ShooterCommand extends Command {
   /** Creates a new ShooterCommand. */
 
   FuelShooterSubsystem fuelShooterSubsystem;
-  BooleanSupplier triggerSupplier, bumperSupplier, startSupplier;
+  BooleanSupplier triggerSupplier, bumperSupplier, startSupplier, backSupplier;
 
-  public ShooterCommand(FuelShooterSubsystem fuelShooterSubsystem, BooleanSupplier rightTrigger, BooleanSupplier rightBumper, BooleanSupplier start) {
+  public ShooterCommand(FuelShooterSubsystem fuelShooterSubsystem, BooleanSupplier rightTrigger, BooleanSupplier rightBumper, 
+  BooleanSupplier start, BooleanSupplier back) {
     /* This command will run the shooter and the intake grab 
     (for the agitator) at the same time when the RT is fully depressed */
 
@@ -25,6 +26,7 @@ public class ShooterCommand extends Command {
     this.triggerSupplier = rightTrigger;
     this.bumperSupplier = rightBumper;
     this.startSupplier = start;
+    this.backSupplier = back;
 
 
     addRequirements(fuelShooterSubsystem);
@@ -38,7 +40,8 @@ public class ShooterCommand extends Command {
   @Override
   public void execute() {
     // pass only the current trigger state; subsystem tracks timing
-    fuelShooterSubsystem.motorControl(this.triggerSupplier.getAsBoolean(), this.bumperSupplier.getAsBoolean(), this.startSupplier.getAsBoolean());
+    fuelShooterSubsystem.motorControl(this.triggerSupplier.getAsBoolean(), this.bumperSupplier.getAsBoolean(), 
+    this.startSupplier.getAsBoolean(), this.backSupplier.getAsBoolean());
   }
 
   // Called once the command ends or is interrupted.
