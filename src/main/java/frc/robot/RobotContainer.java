@@ -25,6 +25,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
+import frc.robot.commands.autonomous.IntakeUnreadyAutonCommand;
 import frc.robot.commands.autonomous.ShooterAutonCommand;
 
 import frc.robot.generated.TunerConstants;
@@ -62,6 +63,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("ShooterAuton", new ShooterAutonCommand(FuelShooterSubsystem)); 
         NamedCommands.registerCommand("ReadyIntake", new IntakeReadyAutonCommand(IntakeSubsystem));
         NamedCommands.registerCommand("StartIntake", new IntakeRunAutonCommand(IntakeSubsystem));
+        NamedCommands.registerCommand("UnreadyIntake", new IntakeUnreadyAutonCommand(IntakeSubsystem));
         /*NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
             ()-> System.out.println("Shooter Auton Command Executed")));
         NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
@@ -84,8 +86,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed / 1.25) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed / 1.25
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed / 1.0) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed / 1.0
                     ) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             ) //TODO: Increase Speed

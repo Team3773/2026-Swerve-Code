@@ -29,9 +29,68 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.25,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "ReadyIntake",
+      "waypointRelativePos": 0.04686752749880336,
+      "endWaypointRelativePos": 0.13295074127211529,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ReadyIntake"
+        }
+      }
+    },
+    {
+      "name": "StartIntake",
+      "waypointRelativePos": 0.2687709230033458,
+      "endWaypointRelativePos": 0.5461501673840279,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartIntake"
+        }
+      }
+    },
+    {
+      "name": "ShooterAuton",
+      "waypointRelativePos": 0.6054519368723105,
+      "endWaypointRelativePos": 0.7412721186035393,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ShooterAuton"
+        }
+      }
+    },
+    {
+      "name": "UnreadyIntake",
+      "waypointRelativePos": 0.8522238163558109,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "UnreadyIntake"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

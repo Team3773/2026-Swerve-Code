@@ -106,9 +106,14 @@
   "eventMarkers": [
     {
       "name": "ShooterAuton",
-      "waypointRelativePos": 0.5853658536585299,
-      "endWaypointRelativePos": null,
-      "command": null
+      "waypointRelativePos": 0.42467718794835907,
+      "endWaypointRelativePos": 1.4882831181252985,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ShooterAuton"
+        }
+      }
     }
   ],
   "globalConstraints": {

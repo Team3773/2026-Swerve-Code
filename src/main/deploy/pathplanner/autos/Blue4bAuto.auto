@@ -13,12 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "ReadyIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "ShooterAuton"
           }
         }

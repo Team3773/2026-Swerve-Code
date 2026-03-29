@@ -122,7 +122,12 @@
       "name": "ShooterAuton",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": 1.6260162601626107,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ShooterAuton"
+        }
+      }
     }
   ],
   "globalConstraints": {

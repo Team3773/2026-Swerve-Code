@@ -131,7 +131,12 @@
       "name": "StartIntake",
       "waypointRelativePos": 2.621376811594204,
       "endWaypointRelativePos": 4.809782608695648,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "StartIntake"
+        }
+      }
     }
   ],
   "globalConstraints": {

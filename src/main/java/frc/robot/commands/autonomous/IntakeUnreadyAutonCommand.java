@@ -10,13 +10,13 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeReadyAutonCommand extends Command {
+public class IntakeUnreadyAutonCommand extends Command {
   /** Creates a new IntakeReadyAutonCommand. */
   IntakeSubsystem intakeSubsystem;
 
   private final Timer timer = new Timer();
 
-  public IntakeReadyAutonCommand(IntakeSubsystem intakeSubsystem) {
+  public IntakeUnreadyAutonCommand(IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
 
@@ -35,7 +35,7 @@ public class IntakeReadyAutonCommand extends Command {
   @Override
   public void execute() {
     //System.out.println("Moving intake to deployed position...");
-    intakeSubsystem.intakeGoToPosition(IntakeCommand.deployedPos);
+    intakeSubsystem.intakeGoToPosition(IntakeCommand.startPos);
   }
 
   // Called once the command ends or is interrupted.

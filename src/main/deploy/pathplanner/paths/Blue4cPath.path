@@ -34,9 +34,14 @@
   "eventMarkers": [
     {
       "name": "ReadyIntake",
-      "waypointRelativePos": 0.2649450023912005,
-      "endWaypointRelativePos": 0.8101386896221902,
-      "command": null
+      "waypointRelativePos": 0.8981348637015745,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ReadyIntake"
+        }
+      }
     }
   ],
   "globalConstraints": {
