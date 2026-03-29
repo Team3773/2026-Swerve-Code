@@ -16,6 +16,7 @@ public final class Constants {
         // Setpoints
         public static final double intakeDownSetpoint = -0.32;
         public static final double intakeUpSetpoint = -0.07;
+        public static final double IntakeOscillateSetpoint = -0.20;
 
         // PID Values
         // !!!!!!DON'T MESS AROUND WITH THE VALUES UNLESS IT IS NOT REACHING THE SETPOINTS!!!!!!

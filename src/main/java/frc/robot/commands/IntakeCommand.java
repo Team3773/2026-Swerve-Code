@@ -20,6 +20,7 @@ public class IntakeCommand extends Command {
 
   public static double startPos = Constants.IntakeConstants.intakeUpSetpoint;
   public static double deployedPos = Constants.IntakeConstants.intakeDownSetpoint;
+  public static double oscillate = Constants.IntakeConstants.IntakeOscillateSetpoint;
 
   private static final double POSITION_THRESHOLD = 1.0; // Adjust as needed
 
