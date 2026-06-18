@@ -85,7 +85,8 @@ public class FuelShooterSubsystem extends SubsystemBase {
             if (backPressed) {
                 intakeSecondAgitator.set(-ShooterConstants.agitatorSpeed);
             }
-            // after 1 second, start the agitator
+            // After 1 second, start the agitator.
+            // This is to ensure that the shooter has ramped up to full speed.
             else if (Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
                 intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
             } else {
