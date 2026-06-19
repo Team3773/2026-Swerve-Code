@@ -31,7 +31,7 @@ public final class Constants {
         public static final int shooterSecondFeedID = 15;
         public static final int shooterShooterID = 16;
         public static final int shooterShooterFollowingID = 17;
-        public static final int shooterAgitatorID = 22;
+        public static final int shooterAgitatorID = 22; //Spindexer
 
         //Speeds
         public static final double shooterSpeed = -0.55; //Was -0.7
@@ -44,6 +44,6 @@ public final class Constants {
         public static final double shooterMaxReverseSpeed = 1.0;
 
         public static final double shooterFeedSpeed = -0.75;
-        public static final double agitatorSpeed = -0.75;
+        public static final double agitatorSpeed = -0.25;
     }
 } //Climb used to have IDs 18,19

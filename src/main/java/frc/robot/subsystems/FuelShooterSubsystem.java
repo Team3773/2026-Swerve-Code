@@ -21,7 +21,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private SparkMax shooterSecondFeedMotor; //Another Wheel
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
-    private SparkMax intakeSecondAgitator;
+    private SparkMax intakeSecondAgitator; //Now the Spindexer
 
     // keep timing state in the subsystem
     private boolean triggerWasPressed = false;
