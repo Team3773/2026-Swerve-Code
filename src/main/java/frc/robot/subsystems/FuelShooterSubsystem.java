@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkFlex;
@@ -21,7 +25,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private SparkMax shooterSecondFeedMotor; //Another Wheel
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
-    private SparkMax intakeSecondAgitator; //Now the Spindexer
+    private TalonFXS intakeSecondAgitator; //Now the Spindexer
 
     // keep timing state in the subsystem
     private boolean triggerWasPressed = false;
@@ -34,7 +38,12 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterSecondFeedMotor = new SparkMax(Constants.ShooterConstants.shooterSecondFeedID, MotorType.kBrushless);
         shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterID, MotorType.kBrushless);
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
-        intakeSecondAgitator = new SparkMax(Constants.ShooterConstants.shooterAgitatorID, MotorType.kBrushless);
+        intakeSecondAgitator = new TalonFXS(Constants.ShooterConstants.shooterAgitatorID);
+
+        TalonFXSConfiguration talonFXSConfiguration = new TalonFXSConfiguration();
+        talonFXSConfiguration.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        talonFXSConfiguration.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        intakeSecondAgitator.getConfigurator().apply(talonFXSConfiguration);
 
         SparkMaxConfig globalConfig = new SparkMaxConfig();
         /*SparkFlexConfig leaderConfig = new SparkFlexConfig();
