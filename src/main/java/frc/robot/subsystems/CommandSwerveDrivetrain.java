@@ -341,6 +341,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Optional<Pose2d> samplePoseAt(double timestampSeconds) {
         return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
     }
+
+    public double getHeadingDegrees() {
+    return getState().Pose.getRotation().getDegrees();
+    }
+    
     public void updateVisionPose(String limelightName) {
     // Tell the Limelight which way the robot is facing so MegaTag2 can solve correctly
     LimelightHelpers.SetRobotOrientation(
