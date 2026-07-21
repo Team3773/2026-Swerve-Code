@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
@@ -31,6 +32,14 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private boolean triggerWasPressed = false;
     private double triggerStartTime = 0.0;
     private double variableStartTime = 0.0;
+
+    //Shooter telemetry variables
+    double shooterVelocity = shooterMotor.getAbsoluteEncoder().getVelocity();
+    double shooterFeedV = shooterFeedMotor.getAbsoluteEncoder().getVelocity();
+    double shooterSecondFeedV = shooterSecondFeedMotor.getAbsoluteEncoder().getVelocity();
+    boolean readyToShoot = false;
+    boolean shooterJammed = false;
+    String shooterStatus = "FuelShooterSubsystem Init";
 
     public FuelShooterSubsystem() {
 
@@ -128,5 +137,77 @@ public class FuelShooterSubsystem extends SubsystemBase {
     public void runAgitator(double speed) {
         intakeSecondAgitator.set(speed);
         System.out.println("Agitator motor's speed set to" + speed);
+    }
+
+    //Speed checks
+    public void shooterStatus() {
+        /*       ____________
+         *       |          |
+         *       |       O  |  Left = 17: Shooter Follower | Right = 16: Shooter (Both FLEX)
+         *        \      O  |  Right = 15: Second Feed (MAX)
+         *         |        /
+         *        / O      /   Left = 14: Feed (FLEX)
+         *       |_________|
+         *         FRONT TOWARDS
+         *       ---------------->
+         *             ENEMY
+         */
+        //Shooter is at full speed and the trigger is pressed
+        if (shooterVelocity >= 1.0 && triggerWasPressed) { 
+            readyToShoot = true;
+            shooterJammed = false;
+            shooterStatus = "Shooting";
+        }
+        //Shooter is not at a significant speed and the trigger is held and the Spindexer is running 
+        else if (shooterVelocity <= 0.2 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
+            readyToShoot = false;
+            shooterJammed = true;
+            shooterStatus = "!!! Shooter jammed !!!";
+        }
+        //Either of the Shooter feed motors is not at a significant speed and the trigger is held
+        else if ((shooterFeedV <= 1.0 || shooterSecondFeedV <=1.0) && triggerWasPressed) {
+            readyToShoot = false;
+            shooterJammed = true;
+            shooterStatus = "!!! Shooter Feed jammed !!!";
+        }
+        //Shooter is not up to speed and the trigger is being held and the Spindexer isn't running yet
+        else if (shooterVelocity <= 1.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime <= 1.0) {
+            readyToShoot = false;
+            shooterJammed = false;
+            shooterStatus = "Spinning up...";
+        }
+        //Shooter is not at full speed yet and the trigger is held and the Spindexer is running
+        else if (shooterVelocity <= 1.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
+            readyToShoot = false;
+            shooterJammed = true;
+            shooterStatus = "!!! Shooter has not fully spun up !!!";
+        }
+        //Shooter is still at significant speed after the trigger has been released
+        else if (shooterVelocity >= 1.0 && !triggerWasPressed) {
+            readyToShoot = false;
+            shooterJammed = false;
+            shooterStatus = "Spinning down...";
+        }
+        //No condition above is met, which likely means the shooter is inactive
+        else {
+            readyToShoot = false;
+            shooterJammed = false;
+            shooterStatus = "Shooter inactive";
+        }
+
+    }
+
+    //Telemetry (Shooter and Agitator Speed)
+    @Override
+    public void periodic() { //TODO: check if thing this works
+        //Speeds (RPS)
+        SmartDashboard.putNumber("Shooter Vel (rps)", shooterVelocity); 
+        SmartDashboard.putNumber("Agitator Vel (rps)", intakeSecondAgitator.getVelocity().getValueAsDouble());
+        //Booleans
+        SmartDashboard.putBoolean("Trigger was pressed", triggerWasPressed);
+        SmartDashboard.putBoolean("Ready to Shoot", readyToShoot);
+        SmartDashboard.putBoolean("Shooter Jammed", shooterJammed);
+        //Strings
+        SmartDashboard.putString("Shooter Status", shooterStatus);
     }
 }
