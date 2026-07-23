@@ -35,7 +35,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
 
     //Shooter telemetry variables
     double shooterVelocity = shooterMotor.getAbsoluteEncoder().getVelocity();
-    double shooterFeedV = shooterFeedMotor.getAbsoluteEncoder().getVelocity();
+    double shooterFeedV = shooterFeedMotor.getAbsoluteEncoder().getVelocity(); //These three can break the code if the motors aren't connected
     double shooterSecondFeedV = shooterSecondFeedMotor.getAbsoluteEncoder().getVelocity();
     boolean readyToShoot = false;
     boolean shooterJammed = false;
@@ -105,6 +105,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             }
             // After 1 second, start the agitator.
             // This is to ensure that the shooter has ramped up to full speed.
+            // TODO: Consider making this based on when the shooter is ready
             else if (Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
                 intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
             } else {
@@ -141,7 +142,12 @@ public class FuelShooterSubsystem extends SubsystemBase {
 
     //Speed checks
     public void shooterStatus() {
-        /*       ____________
+        /*
+         * --------------------
+         * Shooter Motor Layout
+         * --------------------
+         *
+         *       ____________
          *       |          |
          *       |       O  |  Left = 17: Shooter Follower | Right = 16: Shooter (Both FLEX)
          *        \      O  |  Right = 15: Second Feed (MAX)
@@ -151,8 +157,12 @@ public class FuelShooterSubsystem extends SubsystemBase {
          *         FRONT TOWARDS
          *       ---------------->
          *             ENEMY
+         *
+         * --------------------
+         * Possible conditions
+         * --------------------
          */
-        //Shooter is at full speed and the trigger is pressed
+         //Shooter is at full speed and the trigger is pressed
         if (shooterVelocity >= 1.0 && triggerWasPressed) { 
             readyToShoot = true;
             shooterJammed = false;
@@ -200,6 +210,8 @@ public class FuelShooterSubsystem extends SubsystemBase {
     //Telemetry (Shooter and Agitator Speed)
     @Override
     public void periodic() { //TODO: check if thing this works
+        //Run shooterStatus to update the telemetry
+        shooterStatus();
         //Speeds (RPS)
         SmartDashboard.putNumber("Shooter Vel (rps)", shooterVelocity); 
         SmartDashboard.putNumber("Agitator Vel (rps)", intakeSecondAgitator.getVelocity().getValueAsDouble());
