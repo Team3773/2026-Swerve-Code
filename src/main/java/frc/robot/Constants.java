@@ -19,7 +19,6 @@ public final class Constants {
 
         // PID Values
         // !!!!!!DON'T MESS AROUND WITH THE VALUES UNLESS IT IS NOT REACHING THE SETPOINTS!!!!!!
-        // IF IT ISN'T GETTING TO THE DOWN SETPOINT, INCREASE THE kD VALUE!
         public static final double intakePivot_kP = 16.0;
         public static final double intakePivot_kI = 0.0;
         public static final double intakePivot_kD = 0.1;

@@ -106,6 +106,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             // After 1 second, start the agitator.
             // This is to ensure that the shooter has ramped up to full speed.
             // TODO: Consider making this based on when the shooter is ready
+            // Telemetry code must be tested first
             else if (Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
                 intakeSecondAgitator.set(ShooterConstants.agitatorSpeed);
             } else {
@@ -172,10 +173,11 @@ public class FuelShooterSubsystem extends SubsystemBase {
         else if (shooterVelocity <= 0.2 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
             readyToShoot = false;
             shooterJammed = true;
-            shooterStatus = "!!! Shooter jammed !!!";
+            shooterStatus = "!?!? Shooter jammed !?!?";
         }
         //Either of the Shooter feed motors is not at a significant speed and the trigger is held
-        else if ((shooterFeedV <= 1.0 || shooterSecondFeedV <=1.0) && triggerWasPressed) {
+        else if ((shooterFeedV <= 1.0 || shooterSecondFeedV <=1.0) && triggerWasPressed 
+                  && Timer.getFPGATimestamp() - triggerStartTime <= 1.0) {
             readyToShoot = false;
             shooterJammed = true;
             shooterStatus = "!!! Shooter Feed jammed !!!";
@@ -209,7 +211,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
 
     //Telemetry (Shooter and Agitator Speed)
     @Override
-    public void periodic() { //TODO: check if thing this works
+    public void periodic() { //TODO, DO FIRST: check if thing this works
         //Run shooterStatus to update the telemetry
         shooterStatus();
         //Speeds (RPS)

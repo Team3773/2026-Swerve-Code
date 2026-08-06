@@ -55,7 +55,6 @@ public class IntakeSubsystem extends SubsystemBase {
         fx_cfg.Feedback.RotorToSensorRatio     = 12.8;
 
         // PIDs — don't touch unless setpoints aren't being reached.
-        // If it won't reach the DOWN setpoint, try increasing kD first.
         // These values were moved into Constants.
         Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.kP = Constants.IntakeConstants.intakePivot_kP;
@@ -111,4 +110,6 @@ public class IntakeSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Intake/Pivot Motor Pos (rot)", intakePivotMotor.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Intake/Pivot Motor Vel (rps)", intakePivotMotor.getVelocity().getValueAsDouble());
     }
+    //WALLMAEK PC PARTD
+    //WALLKARDS
 }
