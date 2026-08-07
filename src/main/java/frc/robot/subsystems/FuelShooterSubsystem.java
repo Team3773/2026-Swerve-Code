@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -21,7 +25,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private SparkMax shooterSecondFeedMotor; //Another Wheel
     private SparkFlex shooterMotor;
     private SparkFlex shooterFollowingMotor;
-    private SparkMax intakeSecondAgitator;
+    private TalonFXS intakeSecondAgitator;
 
     // keep timing state in the subsystem
     private boolean triggerWasPressed = false;
@@ -34,7 +38,12 @@ public class FuelShooterSubsystem extends SubsystemBase {
         shooterSecondFeedMotor = new SparkMax(Constants.ShooterConstants.shooterSecondFeedID, MotorType.kBrushless);
         shooterMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterID, MotorType.kBrushless);
         shooterFollowingMotor = new SparkFlex(Constants.ShooterConstants.shooterShooterFollowingID, MotorType.kBrushless);
-        intakeSecondAgitator = new SparkMax(Constants.ShooterConstants.shooterAgitatorID, MotorType.kBrushless);
+        intakeSecondAgitator = new TalonFXS(Constants.ShooterConstants.shooterAgitatorID);
+
+        TalonFXSConfiguration talonFXSConfiguration = new TalonFXSConfiguration();
+        talonFXSConfiguration.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        talonFXSConfiguration.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        intakeSecondAgitator.getConfigurator().apply(talonFXSConfiguration);
 
         SparkMaxConfig globalConfig = new SparkMaxConfig();
         /*SparkFlexConfig leaderConfig = new SparkFlexConfig();
@@ -65,7 +74,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             }
 
             // keep shooter motors running while trigger held
-            shooterFeedMotor.set(ShooterConstants.shooterFeedSpeed);
+            shooterFeedMotor.set(-ShooterConstants.shooterFeedSpeed);
             shooterSecondFeedMotor.set(-ShooterConstants.shooterFeedSpeed);
 
             if (rightBumperPressed && startPressed) { //Max (+RB+Start). Not needed in matches, given how far the fuel is shot
@@ -110,7 +119,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
 
     public void runMotor(double speed) {
         shooterFeedMotor.set(speed);
-        shooterSecondFeedMotor.set(-speed);
+        shooterSecondFeedMotor.set(speed);
         shooterMotor.set(-speed);
         shooterFollowingMotor.set(speed);
         System.out.println("Shooter motors' speed set to" + speed);
