@@ -15,14 +15,14 @@ public final class Constants {
 
         // Setpoints
         public static final double intakeDownSetpoint = -0.17;
-        public static final double intakeUpSetpoint = 0.04;
+        public static final double intakeUpSetpoint = 0.06;
 
         // PID Values
         // !!!!!!DON'T MESS AROUND WITH THE VALUES UNLESS IT IS NOT REACHING THE SETPOINTS!!!!!!
         // IF IT ISN'T GETTING TO THE DOWN SETPOINT, INCREASE THE kD VALUE!
-        public static final double intakePivot_kP = 0.1;
+        public static final double intakePivot_kP = 25.0;
         public static final double intakePivot_kI = 0.0;
-        public static final double intakePivot_kD = 0.0;
+        public static final double intakePivot_kD = 1.0;
     }
 
     public static final class ShooterConstants {
