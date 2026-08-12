@@ -34,9 +34,9 @@ public class FuelShooterSubsystem extends SubsystemBase {
     private double variableStartTime = 0.0;
 
     //Shooter telemetry variables
-    double shooterVelocity = shooterMotor.getAbsoluteEncoder().getVelocity();
-    double shooterFeedV = shooterFeedMotor.getAbsoluteEncoder().getVelocity(); //These three can break the code if the motors aren't connected
-    double shooterSecondFeedV = shooterSecondFeedMotor.getAbsoluteEncoder().getVelocity();
+    double shooterVelocity = 0.0;
+    double shooterFeedV = 0.0; 
+    double shooterSecondFeedV = 0.0;
     boolean readyToShoot = false;
     boolean shooterJammed = false;
     String shooterStatus = "FuelShooterSubsystem Init";
@@ -83,7 +83,7 @@ public class FuelShooterSubsystem extends SubsystemBase {
             }
 
             // keep shooter motors running while trigger held
-            shooterFeedMotor.set(ShooterConstants.shooterFeedSpeed);
+            shooterFeedMotor.set(-ShooterConstants.shooterFeedSpeed);
             shooterSecondFeedMotor.set(-ShooterConstants.shooterFeedSpeed);
 
             if (rightBumperPressed && startPressed) { //Max (+RB+Start). Not needed in matches, given how far the fuel is shot
@@ -143,6 +143,9 @@ public class FuelShooterSubsystem extends SubsystemBase {
 
     //Speed checks
     public void shooterStatus() {
+        shooterVelocity = shooterMotor.getEncoder().getVelocity();
+        shooterFeedV = shooterFeedMotor.getEncoder().getVelocity(); //These three can break the code if the motors aren't connected
+        shooterSecondFeedV = shooterSecondFeedMotor.getEncoder().getVelocity();
         /*
          * --------------------
          * Shooter Motor Layout
@@ -164,13 +167,13 @@ public class FuelShooterSubsystem extends SubsystemBase {
          * --------------------
          */
          //Shooter is at full speed and the trigger is pressed
-        if (shooterVelocity >= 1.0 && triggerWasPressed) { 
+        if (shooterVelocity >= 3000.0 && triggerWasPressed) { 
             readyToShoot = true;
             shooterJammed = false;
             shooterStatus = "Shooting";
         }
         //Shooter is not at a significant speed and the trigger is held and the Spindexer is running 
-        else if (shooterVelocity <= 0.2 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
+        else if (shooterVelocity <= 500.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
             readyToShoot = false;
             shooterJammed = true;
             shooterStatus = "!?!? Shooter jammed !?!?";
@@ -183,19 +186,19 @@ public class FuelShooterSubsystem extends SubsystemBase {
             shooterStatus = "!!! Shooter Feed jammed !!!";
         }
         //Shooter is not up to speed and the trigger is being held and the Spindexer isn't running yet
-        else if (shooterVelocity <= 1.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime <= 1.0) {
+        else if (shooterVelocity <= 3000.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime <= 1.0) {
             readyToShoot = false;
             shooterJammed = false;
             shooterStatus = "Spinning up...";
         }
         //Shooter is not at full speed yet and the trigger is held and the Spindexer is running
-        else if (shooterVelocity <= 1.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
+        else if (shooterVelocity <= 3000.0 && triggerWasPressed && Timer.getFPGATimestamp() - triggerStartTime >= 1.0) {
             readyToShoot = false;
             shooterJammed = true;
             shooterStatus = "!!! Shooter has not fully spun up !!!";
         }
         //Shooter is still at significant speed after the trigger has been released
-        else if (shooterVelocity >= 1.0 && !triggerWasPressed) {
+        else if (shooterVelocity >= 500.0 && !triggerWasPressed) {
             readyToShoot = false;
             shooterJammed = false;
             shooterStatus = "Spinning down...";

@@ -71,9 +71,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void runIntakeGrabber(boolean leftTriggerPressed, boolean leftBumperPressed) {
         if (leftTriggerPressed) {
-            intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
-        } else if (leftBumperPressed) {
             intakeGrabMotor.set(-Constants.IntakeConstants.intakeSpeed);
+        } else if (leftBumperPressed) {
+            intakeGrabMotor.set(Constants.IntakeConstants.intakeSpeed);
         } else {
             intakeGrabMotor.set(0.0);
         }
