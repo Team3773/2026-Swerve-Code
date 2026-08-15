@@ -37,7 +37,7 @@ public class ShooterAutonCommand extends Command {
     fuelShooterSubsystem.runMotor(Constants.ShooterConstants.shooterSpeed); //Run shooter every loop
 
     if (timer.get() >= 1) {
-      fuelShooterSubsystem.runAgitator(Constants.ShooterConstants.agitatorSpeed); //Run agitator after 1 second
+      fuelShooterSubsystem.runAgitator(-Constants.ShooterConstants.agitatorSpeed); //Run agitator after 1 second
     } else {
       fuelShooterSubsystem.runAgitator(0.0); //Stop agitator until 1 second has passed
     }
@@ -55,6 +55,6 @@ public class ShooterAutonCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= 5; //Runs for 3 seconds
+    return timer.get() >= 50; //Runs for 3 seconds
   }
 }
