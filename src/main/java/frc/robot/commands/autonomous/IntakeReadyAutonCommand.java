@@ -48,6 +48,6 @@ public class IntakeReadyAutonCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= 0.5;
+    return timer.get() >= 3;
   }
 }

@@ -129,8 +129,8 @@ public class FuelShooterSubsystem extends SubsystemBase {
     }
 
     public void runMotor(double speed) {
-        shooterFeedMotor.set(speed);
-        shooterSecondFeedMotor.set(speed);
+        shooterFeedMotor.set(-speed);
+        shooterSecondFeedMotor.set(-speed);
         shooterMotor.set(-speed);
         shooterFollowingMotor.set(speed);
         System.out.println("Shooter motors' speed set to" + speed);

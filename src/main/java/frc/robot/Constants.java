@@ -11,10 +11,10 @@ public final class Constants {
         public static final double intakePivotEncoderMagneticOffset = 0;
 
         //Speeds
-        public static final double intakeSpeed = 0.90;
+        public static final double intakeSpeed = 1.00;
 
         // Setpoints
-        public static final double intakeDownSetpoint = -0.13;
+        public static final double intakeDownSetpoint = -0.11;
         public static final double intakeUpSetpoint = 0.12;
 
         // PID Values
@@ -43,6 +43,6 @@ public final class Constants {
         public static final double shooterMaxReverseSpeed = 1.0;
 
         public static final double shooterFeedSpeed = -0.75;
-        public static final double agitatorSpeed = -0.50;
+        public static final double agitatorSpeed = -0.60;
     }
 } //Climb used to have IDs 18,19
