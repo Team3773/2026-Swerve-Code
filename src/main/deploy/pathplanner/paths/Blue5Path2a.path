@@ -48,32 +48,32 @@
     },
     {
       "anchor": {
-        "x": 6.857055555555556,
-        "y": 2.4466555555555556
+        "x": 7.597633333333333,
+        "y": 0.6634222222222217
       },
       "prevControl": {
-        "x": 6.603700000000001,
-        "y": 2.4466555555555556
+        "x": 7.344277777777777,
+        "y": 0.6634222222222217
       },
       "nextControl": {
-        "x": 7.107055555555556,
-        "y": 2.4466555555555556
+        "x": 7.847633333333333,
+        "y": 0.6634222222222217
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.276066666666667,
-        "y": 2.4466555555555556
+        "x": 7.724311111111113,
+        "y": 2.1738111111111107
       },
       "prevControl": {
-        "x": 7.026451578365314,
-        "y": 2.4605230604611874
+        "x": 7.803765928160767,
+        "y": 1.9367732828059938
       },
       "nextControl": {
-        "x": 7.52568175496802,
-        "y": 2.4327880506499238
+        "x": 7.6448562940614595,
+        "y": 2.4108489394162276
       },
       "isLocked": false,
       "linkedName": null
@@ -103,20 +103,20 @@
     },
     {
       "waypointRelativePos": 3,
-      "rotationDegrees": 0.0
+      "rotationDegrees": 90.0
     },
     {
       "waypointRelativePos": 4,
-      "rotationDegrees": 0.0
+      "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.635869565217386,
+      "minWaypointRelativePos": 3.201086956521744,
       "maxWaypointRelativePos": 4.788043478260866,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.4,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -129,7 +129,7 @@
   "eventMarkers": [
     {
       "name": "StartIntake",
-      "waypointRelativePos": 2.6576086956521645,
+      "waypointRelativePos": 1.8242753623188417,
       "endWaypointRelativePos": 4.701086956521724,
       "command": {
         "type": "named",

@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.autonomous.AlignAndScoreCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
 import frc.robot.commands.autonomous.IntakeRunAutonCommand;
 import frc.robot.commands.autonomous.IntakeUnreadyAutonCommand;
@@ -64,6 +65,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("ReadyIntake", new IntakeReadyAutonCommand(IntakeSubsystem));
         NamedCommands.registerCommand("StartIntake", new IntakeRunAutonCommand(IntakeSubsystem));
         NamedCommands.registerCommand("UnreadyIntake", new IntakeUnreadyAutonCommand(IntakeSubsystem));
+        NamedCommands.registerCommand("ApirlTag", new AlignAndScoreCommand(drivetrain, 9));
         /*NamedCommands.registerCommand("ShooterAuton", Commands.runOnce(
             ()-> System.out.println("Shooter Auton Command Executed")));
         NamedCommands.registerCommand("ReadyIntake", Commands.runOnce(
