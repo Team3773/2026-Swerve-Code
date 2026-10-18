@@ -14,8 +14,8 @@ public final class Constants {
         public static final double intakeSpeed = 1.00;
 
         // Setpoints
-        public static final double intakeDownSetpoint = -0.11;
-        public static final double intakeUpSetpoint = 0.12;
+        public static final double intakeDownSetpoint = -0.10;
+        public static final double intakeUpSetpoint = 0.18;
 
         // PID Values
         // !!!!!!DON'T MESS AROUND WITH THE VALUES UNLESS IT IS NOT REACHING THE SETPOINTS!!!!!!

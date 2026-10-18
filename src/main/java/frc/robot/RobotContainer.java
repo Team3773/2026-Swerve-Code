@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.OrchestraCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.autonomous.AlignAndScoreCommand;
 import frc.robot.commands.autonomous.IntakeReadyAutonCommand;
@@ -33,6 +35,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.FuelShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.OrchestraSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -55,6 +58,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final FuelShooterSubsystem FuelShooterSubsystem = new FuelShooterSubsystem();
     public final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+    public final OrchestraSubsystem OrchestraSubsystem = new OrchestraSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -130,6 +134,8 @@ public class RobotContainer {
         FuelShooterSubsystem.setDefaultCommand(new ShooterCommand(FuelShooterSubsystem, 
             operator.rightTrigger()::getAsBoolean, operator.rightBumper()::getAsBoolean, operator.start()::getAsBoolean, 
             operator.back()::getAsBoolean));
+
+        OrchestraSubsystem.setDefaultCommand(new OrchestraCommand(OrchestraSubsystem, driver.y()::getAsBoolean, driver.x()::getAsBoolean));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
